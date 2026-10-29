@@ -1,9 +1,11 @@
 // Verificador estático: sintaxe do JS inline + IDs duplicados + atributos href/src quebrados
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const base = 'C:\\Users\\TI\\Desktop\\projeto\\alpha';
-const files = ['alpha_pizzas_site.html', 'admin.html'];
+const here = path.dirname(fileURLToPath(import.meta.url));
+const base = path.resolve(here, '..');
+const files = ['index.html', 'admin.html'];
 
 const escapeHtml = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
