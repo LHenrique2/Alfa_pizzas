@@ -1,0 +1,2346 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Alpha Pizzas</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            gold: '#ffb703',
+                            red: '#e63946',
+                            crimson: '#ce2b37',
+                            green: '#009246',
+                            dark: '#0c0e12',
+                            card: '#161922',
+                            cardBorder: '#232733'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* CURSOR FATIA DE PIZZA ARTESANAL */
+        html, body {
+            background-color: #08090c;
+            color: #e2e8f0;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cdefs%3E%3Cfilter id='s' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='1' dy='2' stdDeviation='1' flood-color='%23000' flood-opacity='0.6'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23s)'%3E%3Cpath d='M2 3 L27 15 Q22 29 7 26 Z' fill='%23d97706' stroke='%2378350f' stroke-width='1.2' stroke-linejoin='round'/%3E%3Cpath d='M27 15 Q22 29 7 26' fill='none' stroke='%23b45309' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M4 5 L24 15 Q19 26 8 24 Z' fill='%23dc2626'/%3E%3Cpath d='M5 6 L22 14.5 Q18 24 9 22 Z' fill='%23fbbf24'/%3E%3Ccircle cx='12' cy='12' r='2.4' fill='%23b91c1c' stroke='%237f1d1d' stroke-width='0.6'/%3E%3Ccircle cx='17' cy='18' r='2.2' fill='%23b91c1c' stroke='%237f1d1d' stroke-width='0.6'/%3E%3Ccircle cx='11' cy='19' r='2.0' fill='%23b91c1c' stroke='%237f1d1d' stroke-width='0.6'/%3E%3Ccircle cx='12.5' cy='11.5' r='0.6' fill='%23fca5a5'/%3E%3Ccircle cx='16.5' cy='17.5' r='0.6' fill='%23fca5a5'/%3E%3Ccircle cx='7' cy='8' r='0.7' fill='%2315803d'/%3E%3Ccircle cx='14' cy='14' r='0.7' fill='%2315803d'/%3E%3C/g%3E%3C/svg%3E") 2 2, auto;
+        }
+
+        button, a, input, select, textarea, .cursor-pointer {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cdefs%3E%3Cfilter id='s' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='1' dy='2' stdDeviation='1.2' flood-color='%23ffb703' flood-opacity='0.7'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23s)'%3E%3Cpath d='M2 3 L27 15 Q22 29 7 26 Z' fill='%23ffb703' stroke='%23b45309' stroke-width='1.2' stroke-linejoin='round'/%3E%3Cpath d='M27 15 Q22 29 7 26' fill='none' stroke='%23d97706' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M4 5 L24 15 Q19 26 8 24 Z' fill='%23ef4444'/%3E%3Cpath d='M5 6 L22 14.5 Q18 24 9 22 Z' fill='%23fde047'/%3E%3Ccircle cx='12' cy='12' r='2.4' fill='%23b91c1c' stroke='%237f1d1d' stroke-width='0.6'/%3E%3Ccircle cx='17' cy='18' r='2.2' fill='%23b91c1c' stroke='%237f1d1d' stroke-width='0.6'/%3E%3Ccircle cx='11' cy='19' r='2.0' fill='%23b91c1c' stroke='%237f1d1d' stroke-width='0.6'/%3E%3Ccircle cx='7' cy='8' r='0.7' fill='%2315803d'/%3E%3Ccircle cx='14' cy='14' r='0.7' fill='%2315803d'/%3E%3C/g%3E%3C/svg%3E") 2 2, pointer !important;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #08090c; }
+        ::-webkit-scrollbar-thumb { background: #232733; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #e63946; }
+
+        .modal-overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+        .modal-content {
+            transform: scale(0.95) translateY(10px);
+            transition: transform 0.25s ease;
+        }
+
+        .toast {
+            animation: slideInRight 0.4s ease, fadeOut 0.4s ease 2.6s forwards;
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            to { opacity: 0; transform: translateX(50%); }
+        }
+
+        .product-row:hover {
+            background: rgba(255, 183, 3, 0.04);
+        }
+        .product-row {
+            transition: background 0.2s ease;
+        }
+
+        .stat-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -5px rgba(0,0,0,0.4);
+        }
+
+        .category-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen">
+
+    <!-- TOAST CONTAINER -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-[100] flex flex-col gap-2"></div>
+
+    <!-- ================= LOGIN SCREEN ================= -->
+    <div id="loginScreen" class="min-h-screen flex items-center justify-center px-4">
+        <div class="bg-brand-card border border-brand-cardBorder rounded-3xl p-8 sm:p-10 w-full max-w-md shadow-2xl relative overflow-hidden">
+            <div class="absolute -right-10 -top-10 w-32 h-32 bg-brand-red/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-10 -bottom-10 w-32 h-32 bg-brand-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="text-center mb-8 relative z-10">
+                <img src="logo.png" alt="Alpha Pizzas" class="w-20 h-20 rounded-full border-2 border-brand-gold mx-auto mb-4 object-cover shadow-lg">
+                <h1 class="text-2xl font-extrabold font-heading text-white">PAINEL <span class="text-brand-red">ADMIN</span></h1>
+                <p class="text-xs text-gray-400 mt-1">Alpha Pizzas — Gestão de Cardápio</p>
+            </div>
+
+            <form id="loginForm" class="space-y-4 relative z-10">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-400 mb-2">Senha de Acesso</label>
+                    <input type="password" id="loginPassword" placeholder="Digite a senha do admin"
+                        class="w-full bg-black/60 border border-gray-700 focus:border-brand-gold rounded-xl px-4 py-3 text-white outline-none transition-all placeholder:text-gray-600">
+                </div>
+                <p id="loginError" class="text-red-400 text-xs font-semibold hidden">❌ Senha incorreta. Tente novamente.</p>
+                <button type="submit" class="w-full bg-brand-red hover:bg-red-600 text-white font-extrabold py-3 rounded-xl transition-all shadow-lg shadow-brand-red/20 active:scale-[0.98]">
+                    🔐 Entrar no Painel
+                </button>
+            </form>
+
+            <div class="mt-4 text-center relative z-10">
+                <a href="alpha_pizzas_site.html" class="text-xs text-gray-500 hover:text-brand-gold transition-colors">← Voltar ao site</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= ADMIN PANEL ================= -->
+    <div id="adminPanel" class="hidden">
+
+        <!-- TOP BAR -->
+        <header class="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-gray-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-3">
+                        <img src="logo.png" alt="Alpha Pizzas" class="w-9 h-9 rounded-full border border-brand-gold object-cover">
+                        <div>
+                            <span class="text-sm font-extrabold font-heading text-white tracking-wider">ADMIN <span class="text-brand-red">PANEL</span></span>
+                            <span class="text-[10px] text-gray-500 block">Alpha Pizzas — Gestão</span>
+                        </div>
+                    </div>
+
+                    <!-- ADMIN TABS -->
+                    <div class="flex items-center bg-black/60 p-1 rounded-xl border border-gray-800">
+                        <button id="tabOrdersBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-brand-red text-white">
+                            <span>📦 Pedidos Cozinha / Balcão</span>
+                            <span id="newOrdersBadge" class="bg-brand-gold text-black text-[10px] font-black px-1.5 py-0.2 rounded-full hidden">0</span>
+                        </button>
+                        <button id="tabMenuBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-white">
+                            <span>📋 Cardápio</span>
+                        </button>
+                        <button id="tabDeliveryBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-white">
+                            <span>🚚 Entrega</span>
+                        </button>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <a href="alpha_pizzas_site.html" target="_blank" class="text-xs text-gray-400 hover:text-brand-gold transition-colors flex items-center gap-1">
+                            🌐 Ver Site
+                        </a>
+                        <button id="logoutBtn" class="bg-brand-card border border-brand-cardBorder hover:border-red-500 text-gray-300 hover:text-red-400 px-3 py-1.5 rounded-lg text-xs font-bold transition-all">
+                            🚪 Sair
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+            <!-- ================= VIEW 1: PEDIDOS COZINHA / BALCÃO ================= -->
+            <div id="sectionOrders" class="space-y-6">
+                <!-- Orders Toolbar & Settings -->
+                <div class="bg-brand-card border border-brand-cardBorder rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xl">
+                    <div>
+                        <h2 class="text-xl font-black font-heading text-white flex items-center gap-2">
+                            <span>📦 Pedidos da Cozinha & Balcão</span>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-green-900/60 text-green-300 border border-green-700/50">
+                                ● Ao Vivo
+                            </span>
+                        </h2>
+                        <p class="text-xs text-gray-400 mt-1">Os pedidos feitos pelos clientes chegam aqui em tempo real para impressão e acompanhamento.</p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-3">
+                        <label class="flex items-center gap-2 bg-black/50 border border-gray-800 px-3 py-2 rounded-xl text-xs text-gray-300 cursor-pointer select-none hover:border-brand-gold transition-colors">
+                            <input type="checkbox" id="autoPrintSwitch" class="w-4 h-4 rounded text-brand-gold bg-black/60 border-gray-700 focus:ring-0 cursor-pointer">
+                            <span>🖨️ Imprimir automaticamente ao chegar</span>
+                        </label>
+
+                        <label class="flex items-center gap-2 bg-black/50 border border-gray-800 px-3 py-2 rounded-xl text-xs text-gray-300 cursor-pointer select-none hover:border-brand-gold transition-colors">
+                            <input type="checkbox" id="soundAlertSwitch" checked class="w-4 h-4 rounded text-brand-gold bg-black/60 border-gray-700 focus:ring-0 cursor-pointer">
+                            <span>🔔 Som de alerta</span>
+                        </label>
+
+                        <button id="refreshOrdersBtn" class="bg-brand-card border border-brand-cardBorder hover:border-brand-gold text-white px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow">
+                            🔄 Atualizar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Orders Filter Tabs -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-1">
+                    <button data-order-status="todos" class="order-filter-btn active bg-brand-red text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all">Todos (<span id="countAllOrders">0</span>)</button>
+                    <button data-order-status="novo" class="order-filter-btn bg-brand-card text-gray-300 border border-brand-cardBorder px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:text-white">Novos (<span id="countNewOrders">0</span>)</button>
+                    <button data-order-status="em_preparo" class="order-filter-btn bg-brand-card text-gray-300 border border-brand-cardBorder px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:text-white">Em Preparo (<span id="countPrepOrders">0</span>)</button>
+                    <button data-order-status="saiu_entrega" class="order-filter-btn bg-brand-card text-gray-300 border border-brand-cardBorder px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:text-white">Em Entrega (<span id="countDeliveryOrders">0</span>)</button>
+                    <button data-order-status="concluido" class="order-filter-btn bg-brand-card text-gray-300 border border-brand-cardBorder px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:text-white">Concluídos (<span id="countDoneOrders">0</span>)</button>
+                </div>
+
+                <!-- Orders Grid/List -->
+                <div id="ordersContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Orders dynamically injected here -->
+                </div>
+
+                <!-- Empty Orders -->
+                <div id="emptyOrdersMsg" class="hidden py-16 text-center bg-brand-card border border-brand-cardBorder rounded-2xl">
+                    <span class="text-4xl block mb-2">🍽️</span>
+                    <h3 class="text-base font-bold text-white">Nenhum pedido recebido no momento</h3>
+                    <p class="text-xs text-gray-400 mt-1">Quando um cliente enviar um pedido no site, ele aparecerá aqui com alerta sonoro e impressão imediata.</p>
+                </div>
+            </div>
+
+            <!-- ================= VIEW 2: GESTÃO DO CARDÁPIO ================= -->
+            <div id="sectionMenu" class="hidden">
+                <!-- STATS ROW -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                    <div class="stat-card bg-brand-card border border-brand-cardBorder rounded-2xl p-4 text-center">
+                        <span class="text-2xl font-black text-brand-gold font-heading" id="statTotal">0</span>
+                        <span class="text-[10px] text-gray-400 font-bold uppercase block mt-1">Total Produtos</span>
+                    </div>
+                    <div class="stat-card bg-brand-card border border-brand-cardBorder rounded-2xl p-4 text-center">
+                        <span class="text-2xl font-black text-green-400 font-heading" id="statEsfihasSalg">0</span>
+                        <span class="text-[10px] text-gray-400 font-bold uppercase block mt-1">Esfihas Salg.</span>
+                    </div>
+                    <div class="stat-card bg-brand-card border border-brand-cardBorder rounded-2xl p-4 text-center">
+                        <span class="text-2xl font-black text-pink-400 font-heading" id="statEsfihasDoces">0</span>
+                        <span class="text-[10px] text-gray-400 font-bold uppercase block mt-1">Esfihas Doces</span>
+                    </div>
+                    <div class="stat-card bg-brand-card border border-brand-cardBorder rounded-2xl p-4 text-center">
+                        <span class="text-2xl font-black text-orange-400 font-heading" id="statPizzas">0</span>
+                        <span class="text-[10px] text-gray-400 font-bold uppercase block mt-1">Pizzas, Calzones & Bebidas</span>
+                    </div>
+                </div>
+
+                <!-- TOOLBAR -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button data-filter="todos" class="admin-filter active bg-brand-red text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all">Todos</button>
+                        <button data-filter="esfihas-salgadas" class="admin-filter bg-brand-card text-gray-300 border border-brand-cardBorder px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:text-white">🥐 Salgadas</button>
+                        <button data-filter="esfihas-doces" class="admin-filter bg-brand-card text-gray-300 border border-brand-cardBorder px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:text-white">🍫 Doces</button>
+                        <button data-filter="pizzas" class="admin-filter bg-brand-card text-gray-300 border border-brand-cardBorder px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:text-white">🍕 Pizzas</button>
+                        <button data-filter="calzones" class="admin-filter bg-brand-card text-gray-300 border border-brand-cardBorder px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:text-white">🥟 Brotinhos & Calzones</button>
+                        <button data-filter="adicionais" class="admin-filter bg-brand-card text-gray-300 border border-brand-cardBorder px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:text-white">➕ Adicionais</button>
+                        <button data-filter="bebidas" class="admin-filter bg-brand-card text-gray-300 border border-brand-cardBorder px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:text-white">🥤 Bebidas</button>
+                    </div>
+
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <input type="text" id="searchInput" placeholder="🔍 Buscar produto..."
+                            class="flex-1 sm:w-52 bg-black/60 border border-gray-700 focus:border-brand-gold rounded-lg px-3 py-1.5 text-sm text-white outline-none transition-all placeholder:text-gray-600">
+                        <button id="addProductBtn" class="bg-brand-gold hover:bg-yellow-500 text-black font-extrabold px-4 py-1.5 rounded-lg text-sm flex items-center gap-1 transition-all active:scale-95 whitespace-nowrap shadow-md">
+                            ＋ Novo Produto
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PRODUCTS TABLE -->
+                <div class="bg-brand-card border border-brand-cardBorder rounded-2xl overflow-hidden shadow-xl">
+                    <!-- Table Header -->
+                    <div class="hidden lg:grid grid-cols-[60px_1fr_130px_130px_110px_70px_90px] gap-3 px-5 py-3 bg-black/40 border-b border-gray-800 text-[10px] font-bold uppercase text-gray-500 tracking-wider">
+                        <span>Img</span>
+                        <span>Produto</span>
+                        <span>Categoria</span>
+                        <span>Preço</span>
+                        <span>Badge</span>
+                        <span>ID</span>
+                        <span class="text-right">Ações</span>
+                    </div>
+
+                    <!-- Table Body -->
+                    <div id="productsList" class="divide-y divide-gray-800/50">
+                        <!-- Rows rendered via JS -->
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="emptyState" class="hidden py-16 text-center">
+                        <span class="text-4xl block mb-3">📦</span>
+                        <p class="text-gray-400 font-semibold">Nenhum produto encontrado</p>
+                        <p class="text-gray-600 text-xs mt-1">Adicione novos produtos ou mude o filtro</p>
+                    </div>
+                </div>
+
+                <!-- BOTTOM TOOLBAR -->
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
+                    <div class="flex items-center gap-2">
+                        <button id="exportBtn" class="bg-brand-card border border-brand-cardBorder hover:border-brand-gold text-gray-300 hover:text-white px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5">
+                            📥 Exportar JSON
+                        </button>
+                        <label class="bg-brand-card border border-brand-cardBorder hover:border-brand-gold text-gray-300 hover:text-white px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer">
+                            📤 Importar JSON
+                            <input type="file" id="importInput" accept=".json" class="hidden">
+                        </label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button id="resetDefaultsBtn" class="bg-brand-card border border-red-900/50 hover:border-red-500 text-gray-400 hover:text-red-400 px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5">
+                            🔄 Restaurar Padrões
+                        </button>
+                        <button id="changePasswordBtn" class="bg-brand-card border border-brand-cardBorder hover:border-brand-gold text-gray-300 hover:text-white px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5">
+                            🔑 Alterar Senha
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sectionDelivery" class="hidden space-y-6">
+                <div>
+                    <h2 class="text-xl font-black font-heading text-white">Taxas por bairro</h2>
+                    <p class="text-xs text-gray-400 mt-1">Os valores cadastrados aparecem no checkout e são somados ao pedido.</p>
+                </div>
+                <div class="bg-brand-card border border-brand-cardBorder rounded-2xl p-5 shadow-xl">
+                    <div class="grid grid-cols-[1fr_140px_40px] gap-3 px-1 pb-2 text-[10px] font-bold uppercase text-gray-500">
+                        <span>Bairro</span>
+                        <span>Taxa (R$)</span>
+                        <span></span>
+                    </div>
+                    <div id="deliveryAreasList" class="space-y-2"></div>
+                    <div class="flex flex-wrap justify-between gap-3 mt-5 pt-4 border-t border-gray-800">
+                        <button id="addDeliveryAreaBtn" type="button" class="bg-black/50 border border-gray-700 hover:border-brand-gold text-gray-200 px-4 py-2 rounded-lg text-xs font-bold">＋ Adicionar bairro</button>
+                        <button id="saveDeliveryAreasBtn" type="button" class="bg-brand-gold hover:bg-yellow-500 text-black px-5 py-2 rounded-lg text-xs font-extrabold">💾 Salvar taxas</button>
+                    </div>
+                </div>
+                <div class="bg-brand-card border border-brand-cardBorder rounded-2xl p-5 shadow-xl">
+                    <h3 class="text-base font-bold text-white">Recebimento via Pix</h3>
+                    <p class="text-xs text-gray-400 mt-1 mb-4">A chave será exibida ao cliente quando ele selecionar Pix no checkout.</p>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input id="pixKeyInput" type="text" maxlength="160" placeholder="Chave Pix da loja"
+                            class="flex-1 min-w-0 bg-black/60 border border-gray-700 focus:border-brand-gold rounded-lg px-3 py-2.5 text-sm text-white outline-none">
+                        <button id="savePixKeyBtn" type="button" class="bg-brand-gold hover:bg-yellow-500 text-black px-5 py-2.5 rounded-lg text-xs font-extrabold">💾 Salvar chave Pix</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="py-6 text-center text-gray-600 text-xs border-t border-gray-900 mt-8">
+            <p>Alpha Pizzas — Painel Administrativo • <a href="alpha_pizzas_site.html" class="text-brand-gold hover:underline">Ver site público</a></p>
+        </footer>
+    </div>
+
+    <!-- ================= PRODUCT MODAL ================= -->
+    <div id="productModal" class="modal-overlay fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="modal-content bg-brand-card border border-brand-cardBorder rounded-3xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="p-6 sm:p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 id="modalTitle" class="text-xl font-extrabold font-heading text-white">Novo Produto</h3>
+                    <button id="closeModalBtn" class="text-gray-400 hover:text-white text-xl font-bold transition-colors">&times;</button>
+                </div>
+
+                <form id="productForm" class="space-y-4">
+                    <input type="hidden" id="editId">
+
+                    <!-- Image Preview -->
+                    <div class="flex items-center gap-4">
+                        <div class="w-20 h-20 rounded-xl overflow-hidden border border-gray-700 bg-black/40 flex-shrink-0 flex items-center justify-center">
+                            <img id="imgPreview" src="" alt="" class="w-full h-full object-cover hidden">
+                            <span id="imgPlaceholder" class="text-2xl">🖼️</span>
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-xs font-bold uppercase text-gray-400 mb-1">URL ou caminho da imagem</label>
+                            <input type="text" id="fieldImg" placeholder="https://exemplo.com/imagem.jpg ou /uploads/..."
+                                class="w-full bg-black/60 border border-gray-700 focus:border-brand-gold rounded-lg px-3 py-2 text-sm text-white outline-none transition-all placeholder:text-gray-600">
+                            <label for="imageFile" class="block text-xs font-bold uppercase text-gray-400 mt-3 mb-1">Ou enviar imagem (PNG, JPEG, WebP; até 5 MB)</label>
+                            <input type="file" id="imageFile" accept="image/png,image/jpeg,image/webp"
+                                class="w-full text-xs text-gray-400 file:mr-3 file:rounded-lg file:border-0 file:bg-gray-800 file:px-3 file:py-2 file:text-xs file:font-bold file:text-white hover:file:bg-gray-700">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Nome do Produto *</label>
+                        <input type="text" id="fieldTitle" required placeholder="Ex: Pizza Margherita"
+                            class="w-full bg-black/60 border border-gray-700 focus:border-brand-gold rounded-lg px-3 py-2.5 text-white outline-none transition-all placeholder:text-gray-600">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Categoria *</label>
+                            <select id="fieldCategory" required
+                                class="w-full bg-black/60 border border-gray-700 focus:border-brand-gold rounded-lg px-3 py-2.5 text-white text-sm outline-none transition-all">
+                                <option value="">Selecione...</option>
+                                <option value="esfihas-salgadas">🥐 Esfiha Salgada</option>
+                                <option value="esfihas-doces">🍫 Esfiha Doce</option>
+                                <option value="pizzas">🍕 Pizza</option>
+                                <option value="calzones">🥟 Brotinho / Calzone</option>
+                                <option value="adicionais">➕ Adicional</option>
+                                <option value="bebidas">🥤 Bebida</option>
+                            </select>
+                        </div>
+                        <div id="standardPriceField">
+                            <label id="fieldPriceLabel" class="block text-xs font-bold uppercase text-gray-400 mb-1">Preço (R$) *</label>
+                            <input type="number" id="fieldPrice" required min="0" step="0.01" placeholder="0,00"
+                                class="w-full bg-black/60 border border-gray-700 focus:border-brand-gold rounded-lg px-3 py-2.5 text-white outline-none transition-all placeholder:text-gray-600">
+                        </div>
+                    </div>
+
+                    <!-- Pizza Sizes Pricing Section -->
+                    <div id="pizzaSizesSection" class="hidden bg-black/40 border border-brand-gold/30 rounded-xl p-3.5 space-y-3">
+                        <div class="flex items-center justify-between border-b border-gray-800 pb-2">
+                            <span class="text-xs font-bold uppercase text-brand-gold flex items-center gap-1.5">
+                                🍕 Preços por Tamanho de Pizza
+                            </span>
+                            <span class="text-[11px] text-gray-400">P / M / G / GG</span>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <div>
+                                <label class="block text-[11px] font-bold text-gray-300 mb-1">Pequena (P)</label>
+                                <div class="relative">
+                                    <span class="absolute left-2.5 top-2 text-xs text-gray-500 font-bold">R$</span>
+                                    <input type="number" id="fieldPriceP" min="0" step="0.01" placeholder="32,00"
+                                        class="w-full bg-black/80 border border-gray-700 focus:border-brand-gold rounded-lg pl-8 pr-2 py-2 text-white text-sm outline-none transition-all">
+                                </div>
+                                <span class="text-[10px] text-gray-500 block mt-0.5">4 fatias</span>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-gray-300 mb-1">Média (M)</label>
+                                <div class="relative">
+                                    <span class="absolute left-2.5 top-2 text-xs text-gray-500 font-bold">R$</span>
+                                    <input type="number" id="fieldPriceM" min="0" step="0.01" placeholder="42,00"
+                                        class="w-full bg-black/80 border border-gray-700 focus:border-brand-gold rounded-lg pl-8 pr-2 py-2 text-white text-sm outline-none transition-all">
+                                </div>
+                                <span class="text-[10px] text-gray-500 block mt-0.5">6 fatias (Padrão)</span>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-gray-300 mb-1">Grande (G)</label>
+                                <div class="relative">
+                                    <span class="absolute left-2.5 top-2 text-xs text-gray-500 font-bold">R$</span>
+                                    <input type="number" id="fieldPriceG" min="0" step="0.01" placeholder="52,00"
+                                        class="w-full bg-black/80 border border-gray-700 focus:border-brand-gold rounded-lg pl-8 pr-2 py-2 text-white text-sm outline-none transition-all">
+                                </div>
+                                <span class="text-[10px] text-gray-500 block mt-0.5">8 fatias</span>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-gray-300 mb-1">Gigante (GG)</label>
+                                <div class="relative">
+                                    <span class="absolute left-2.5 top-2 text-xs text-gray-500 font-bold">R$</span>
+                                    <input type="number" id="fieldPriceGG" min="0" step="0.01" placeholder="62,00"
+                                        class="w-full bg-black/80 border border-gray-700 focus:border-brand-gold rounded-lg pl-8 pr-2 py-2 text-white text-sm outline-none transition-all">
+                                </div>
+                                <span class="text-[10px] text-gray-500 block mt-0.5">12 fatias</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Badge / Etiqueta</label>
+                        <input type="text" id="fieldBadge" placeholder="Ex: CAMPEÃ, NOVO, R$ 5,00"
+                            class="w-full bg-black/60 border border-gray-700 focus:border-brand-gold rounded-lg px-3 py-2.5 text-white text-sm outline-none transition-all placeholder:text-gray-600">
+                    </div>
+
+                    <label class="flex items-center gap-3 rounded-xl border border-gray-700 bg-black/30 p-3 text-sm text-gray-200 cursor-pointer">
+                        <input type="checkbox" id="fieldAvailable" checked class="accent-brand-gold w-4 h-4">
+                        <span>Produto disponível para pedidos</span>
+                    </label>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Descrição *</label>
+                        <textarea id="fieldDesc" required rows="3" placeholder="Descreva os ingredientes e detalhes..."
+                            class="w-full bg-black/60 border border-gray-700 focus:border-brand-gold rounded-lg px-3 py-2.5 text-white text-sm outline-none transition-all placeholder:text-gray-600 resize-none"></textarea>
+                    </div>
+
+                    <div class="flex gap-3 pt-2">
+                        <button type="button" id="cancelModalBtn" class="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold py-3 rounded-xl transition-all text-sm">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="flex-1 bg-brand-gold hover:bg-yellow-500 text-black font-extrabold py-3 rounded-xl transition-all text-sm shadow-md active:scale-[0.98]">
+                            💾 Salvar Produto
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= CONFIRM MODAL ================= -->
+    <div id="confirmModal" class="modal-overlay fixed inset-0 z-[70] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="modal-content bg-brand-card border border-brand-cardBorder rounded-2xl w-full max-w-sm shadow-2xl p-6 text-center">
+            <span class="text-4xl block mb-3">⚠️</span>
+            <h4 class="text-lg font-bold text-white mb-2" id="confirmTitle">Tem certeza?</h4>
+            <p class="text-sm text-gray-400 mb-6" id="confirmMessage">Esta ação não pode ser desfeita.</p>
+            <div class="flex gap-3">
+                <button id="confirmCancelBtn" class="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold py-2.5 rounded-xl transition-all text-sm">Cancelar</button>
+                <button id="confirmOkBtn" class="flex-1 bg-brand-red hover:bg-red-600 text-white font-extrabold py-2.5 rounded-xl transition-all text-sm shadow-md">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= PASSWORD CHANGE MODAL ================= -->
+    <div id="passwordModal" class="modal-overlay fixed inset-0 z-[70] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="modal-content bg-brand-card border border-brand-cardBorder rounded-2xl w-full max-w-sm shadow-2xl p-6">
+            <h4 class="text-lg font-bold text-white mb-4 font-heading">🔑 Alterar Senha</h4>
+            <form id="passwordForm" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Senha Atual</label>
+                    <input type="password" id="currentPass" required
+                        class="w-full bg-black/60 border border-gray-700 focus:border-brand-gold rounded-lg px-3 py-2.5 text-white outline-none transition-all">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Nova Senha</label>
+                    <input type="password" id="newPass" required minlength="12"
+                        class="w-full bg-black/60 border border-gray-700 focus:border-brand-gold rounded-lg px-3 py-2.5 text-white outline-none transition-all">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Confirmar Nova Senha</label>
+                    <input type="password" id="confirmPass" required
+                        class="w-full bg-black/60 border border-gray-700 focus:border-brand-gold rounded-lg px-3 py-2.5 text-white outline-none transition-all">
+                </div>
+                <p id="passError" class="text-red-400 text-xs font-semibold hidden"></p>
+                <div class="flex gap-3 pt-1">
+                    <button type="button" id="cancelPassBtn" class="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold py-2.5 rounded-xl transition-all text-sm">Cancelar</button>
+                    <button type="submit" class="flex-1 bg-brand-gold hover:bg-yellow-500 text-black font-extrabold py-2.5 rounded-xl transition-all text-sm">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
+        // ======================================
+        // DEFAULT MENU DATA (same as main site)
+        // ======================================
+        const DEFAULT_MENU = [
+    {
+        "id": 101,
+        "title": "Esfiha de Calabresa",
+        "category": "esfihas-salgadas",
+        "price": 5,
+        "badge": "R$ 5,00",
+        "desc": "Massa artesanal recheada com calabresa moída temperada.",
+        "img": "https://www.seara.com.br/wp-content/uploads/2025/09/esfiha-aberta-de-calabresa-portal-minha-receita.webp"
+    },
+    {
+        "id": 102,
+        "title": "Esfiha de Palmito",
+        "category": "esfihas-salgadas",
+        "price": 5,
+        "badge": "R$ 5,00",
+        "desc": "Palmito macio com tempero especial da casa.",
+        "img": "https://i.pinimg.com/736x/1e/08/ba/1e08babc5f9601fa6731bbcc1d90dd8b.jpg"
+    },
+    {
+        "id": 103,
+        "title": "Esfiha Calabacon",
+        "category": "esfihas-salgadas",
+        "price": 5,
+        "badge": "MAIS PEDIDA",
+        "desc": "Combinação perfeita de calabresa com bacon crocante.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_GNUF8TtkaSVUxeMfK2dt2Lh8d4oPRG7xWL_5XQ0yCQ&s"
+    },
+    {
+        "id": 104,
+        "title": "Esfiha de Presunto",
+        "category": "esfihas-salgadas",
+        "price": 5,
+        "badge": "R$ 5,00",
+        "desc": "Presunto fatiado bem temperado.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR61H1u_XXRV-Mhsy97DI90IBwxiNEmfSjyE9hJvy0m9FE9k9BDMvrtxFrb&s=10"
+    },
+    {
+        "id": 105,
+        "title": "Esfiha de Queijo",
+        "category": "esfihas-salgadas",
+        "price": 5,
+        "badge": "R$ 5,00",
+        "desc": "Queijo muçarela derretido e suculento.",
+        "img": "https://imagem.band.com.br/12/f_355412.jpg"
+    },
+    {
+        "id": 106,
+        "title": "Esfiha de Frango",
+        "category": "esfihas-salgadas",
+        "price": 5,
+        "badge": "R$ 5,00",
+        "desc": "Frango desfiado temperado na medida.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIpSNsv4PAYHaFgQf4yPuLH_37H296semIGGcioAWyoHeQM14ubEKREmB-&s=10"
+    },
+    {
+        "id": 107,
+        "title": "Esfiha de Carne",
+        "category": "esfihas-salgadas",
+        "price": 5.5,
+        "badge": "ESPECIAL R$ 5,50",
+        "desc": "Carne temperada com especiarias e limão.",
+        "img": "https://i0.statig.com.br/bancodeimagens/57/6i/7q/576i7qbxxm8hfhfnzfba7jvpe.jpg"
+    },
+    {
+        "id": 108,
+        "title": "Esfiha Bacon com Milho",
+        "category": "esfihas-salgadas",
+        "price": 5,
+        "badge": "R$ 5,00",
+        "desc": "Bacon crocante combinado com milho selecionado.",
+        "img": "https://media.softsa.com.br/esfiha-show-cb/products/0773b2a7-b248-4fb7-8006-ab895696cb16.jpg"
+    },
+    {
+        "id": 109,
+        "title": "Esfiha Lombo com Catupiry",
+        "category": "esfihas-salgadas",
+        "price": 5,
+        "badge": "DELÍCIA",
+        "desc": "Lombo canadense suculento com requeijão cremoso.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKyi9vbq2rwR-PrCrUDhLQGU6p8eSg2ZIQSJTtteot6Pn65ixNE0I4t_w&s=10"
+    },
+    {
+        "id": 110,
+        "title": "Esfiha Marguerita",
+        "category": "esfihas-salgadas",
+        "price": 5,
+        "badge": "R$ 5,00",
+        "desc": "Muçarela, rodelas de tomate e manjericão fresco.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkX3arJ332jHOxuPw-9mIZxKlV13Pw24IAEYxuWw6eVCfO4t8aJJgFqUo&s=10"
+    },
+    {
+        "id": 111,
+        "title": "Esfiha Muçarela com Cheddar",
+        "category": "esfihas-salgadas",
+        "price": 5,
+        "badge": "R$ 5,00",
+        "desc": "Mistura cremosa de muçarela e cheddar de alta qualidade.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7aEn6iSwBIaNwPoDIWvdJNKPEpYzsXuFOgQQlUMjwbs7ib4bU-vW1mEU&s=10"
+    },
+    {
+        "id": 201,
+        "title": "Esfiha de Banana",
+        "category": "esfihas-doces",
+        "price": 5,
+        "badge": "DOCE R$ 5,00",
+        "desc": "Banana fatiada com canela e açúcar caramelizado.",
+        "img": "https://i.pinimg.com/564x/d4/ab/f0/d4abf0aa32490cadd9c47aabc82d0246.jpg"
+    },
+    {
+        "id": 202,
+        "title": "Esfiha Chocolate com Morango",
+        "category": "esfihas-doces",
+        "price": 5,
+        "badge": "TOP DOCE",
+        "desc": "Chocolate cremoso coberto com morangos frescos.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT95OYIcb2WzzDJRJjra3t6_IhzAQQ2rZX22XjrgHQdWYYaVpTZM3SqYtkF&s=10"
+    },
+    {
+        "id": 203,
+        "title": "Esfiha de Paçoquinha",
+        "category": "esfihas-doces",
+        "price": 5,
+        "badge": "DOCE R$ 5,00",
+        "desc": "Creme doce com pedaços crocantes de paçoca.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSThto6MDxz6x3ai3Hg22HnMWw5rHVGokEpPoYCx27yyUh4Zzt-N94d23Q&s=10"
+    },
+    {
+        "id": 204,
+        "title": "Esfiha de Prestígio",
+        "category": "esfihas-doces",
+        "price": 5,
+        "badge": "DOCE R$ 5,00",
+        "desc": "Chocolate com recheio cremoso de coco ralado.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDd4Wh0NCO8BW834vpxEA0P7OsnM1byQ_IAXK_mtMsDbLWW-NzPujq6ZLB&s=10"
+    },
+    {
+        "id": 205,
+        "title": "Esfiha Romeu e Julieta",
+        "category": "esfihas-doces",
+        "price": 5,
+        "badge": "DOCE R$ 5,00",
+        "desc": "Goiabada cremosa com queijo derretido.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6x7iGOB8W5wC_EHOv70MsZB45a2aLohZAI8o_Ci8Nn2I7vqvi1_u4s0Y&s=10"
+    },
+    {
+        "id": 206,
+        "title": "Esfiha Chocolate Branco",
+        "category": "esfihas-doces",
+        "price": 5,
+        "badge": "DOCE R$ 5,00",
+        "desc": "Delicioso chocolate branco nobre derretido.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0xYwBALataJ3boxueA51QgcO0J36V2U8ba2N-x-nnfsnNW8i4ueCDqrJF&s=10"
+    },
+    {
+        "id": 207,
+        "title": "Esfiha Doce de Leite",
+        "category": "esfihas-doces",
+        "price": 5,
+        "badge": "DOCE R$ 5,00",
+        "desc": "Doce de leite caseiro cremoso.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4FCRK7IzNOhCXCLYA1ll_jVgdwd9wAfhgvQ8JAq8nF0pQ3mTODwGtVJA&s=10"
+    },
+    {
+        "id": 208,
+        "title": "Esfiha Chocolate com M&M",
+        "category": "esfihas-doces",
+        "price": 5,
+        "badge": "NOVIDADE",
+        "desc": "Chocolate ao leite coberto com confetis coloridos.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsKCjlKJjR-Log5u4KUxaeQ1vZJ7VCcXtoS0zlNLnVy2YK4UElWVXUoI&s=10"
+    },
+    {
+        "id": 1,
+        "title": "Pizza Calabresa Tradicional",
+        "category": "pizzas",
+        "price": 42,
+        "badge": "CAMPEÃ",
+        "desc": "Molho artesanal, muçarela, calabresa fatiada e cebola.",
+        "img": "https://cdn0.tudoreceitas.com/pt/posts/9/8/3/pizza_calabresa_e_mussarela_4389_orig.jpg",
+        "sizes": {
+            "pequena": 32,
+            "media": 42,
+            "grande": 52,
+            "gg": 62
+        }
+    },
+    {
+        "id": 2,
+        "title": "Pizza Frango com Catupiry",
+        "category": "pizzas",
+        "price": 46,
+        "badge": "ESPECIALIDADE",
+        "desc": "Peito de frango desfiado com autêntico Catupiry.",
+        "img": "https://i.pinimg.com/736x/c1/4b/5c/c14b5c05a9142554f99223478247c089.jpg",
+        "sizes": {
+            "pequena": 36,
+            "media": 46,
+            "grande": 56,
+            "gg": 66
+        }
+    },
+    {
+        "id": 3,
+        "category": "pizzas",
+        "title": "Pizza À Moda do Chefe",
+        "price": 52,
+        "sizes": {
+            "pequena": 40,
+            "media": 52,
+            "grande": 62,
+            "gg": 72
+        },
+        "badge": "SUPREMA",
+        "desc": "Presunto, ovos, bacon, palmito, ervilha e muçarela.",
+        "img": "https://media.istockphoto.com/id/184946701/photo/pizza.jpg?s=612x612&w=0&k=20&c=97rc0VIi-s3mn4xe4xDy9S-XJ_Ohbn92XaEMaiID_eY="
+    },
+    {
+        "id": 301,
+        "title": "Coca-Cola 1L",
+        "category": "bebidas",
+        "price": 10,
+        "badge": "BEBIDA",
+        "desc": "Refrigerante Coca-Cola garrafa de 1 litro.",
+        "img": "https://mercantilatacado.vtexassets.com/arquivos/ids/168673-800-auto?v=638342826763630000&width=800&height=auto&aspect=true"
+    },
+    {
+        "id": 302,
+        "title": "Guaraná Antarctica 1,5L",
+        "category": "bebidas",
+        "price": 12,
+        "badge": "BEBIDA",
+        "desc": "Refrigerante Guaraná Antarctica garrafa de 1,5 litro.",
+        "img": "https://http2.mlstatic.com/D_NQ_NP_736985-MLB93905102913_102025-O-refrigerante-guarana-antarctica-15l--pack-com-6-unidades.webp"
+    },
+    {
+        "id": 303,
+        "title": "Coca-Cola 2L",
+        "category": "bebidas",
+        "price": 16,
+        "badge": "BEBIDA",
+        "desc": "Refrigerante Coca-Cola garrafa de 2 litros.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBpwbQrrlaJVMr1jd7gLoYHvxu9iXZRexqIsfcvYxOx3Dmgq3jzvcnrQ4&s=10"
+    },
+    {
+        "id": 304,
+        "title": "Coca-Cola 600ml",
+        "category": "bebidas",
+        "price": 8,
+        "badge": "BEBIDA",
+        "desc": "Refrigerante Coca-Cola garrafa de 600 ml.",
+        "img": "https://farmaciaindiana.vtexassets.com/arquivos/ids/371946/refrigerante-coca-cola-600ml-3.jpg?v=638896519284200000"
+    },
+    {
+        "id": 305,
+        "title": "Coca-Cola Lata",
+        "category": "bebidas",
+        "price": 8,
+        "badge": "BEBIDA",
+        "desc": "Refrigerante Coca-Cola em lata.",
+        "img": "https://mercantilnovaera.vtexassets.com/arquivos/ids/206262/Refrigerante-COCA-COLA-Lata-350ml.jpg?v=638174264397000000"
+    },
+    {
+        "id": 306,
+        "title": "Coca-Cola Zero Lata",
+        "category": "bebidas",
+        "price": 7,
+        "badge": "BEBIDA",
+        "desc": "Refrigerante Coca-Cola Zero em lata.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFvYm92jCyoJHD3eBPgbbv35LpbAO40Gp5dbirY3DtzDWyefaj5dDX4pIC&s=10"
+    },
+    {
+        "id": 307,
+        "title": "Guaraviton",
+        "category": "bebidas",
+        "price": 6,
+        "badge": "BEBIDA",
+        "desc": "Bebida Guaravita.",
+        "img": "https://http2.mlstatic.com/D_NQ_NP_995549-MLA99862553491_112025-O.webp"
+    },
+    {
+        "id": 308,
+        "title": "Fanta Laranja 2L",
+        "category": "bebidas",
+        "price": 14,
+        "badge": "BEBIDA",
+        "desc": "Refrigerante Fanta Laranja garrafa de 2 litros.",
+        "img": "https://www.drinkbartenders.com.br/wp-content/uploads/2025/11/fanta-laranja-pet-2-litros-refrescancia-citrica.webp"
+    },
+    {
+        "id": 309,
+        "title": "Ativ Plus",
+        "category": "bebidas",
+        "price": 3,
+        "badge": "BEBIDA",
+        "desc": "Bebida Ativ Plus.",
+        "img": "https://down-br.img.susercontent.com/file/br-11134207-7r98o-mbyatg1hohpj94"
+    },
+    {
+        "id": 310,
+        "title": "Água com Gás",
+        "category": "bebidas",
+        "price": 4,
+        "badge": "BEBIDA",
+        "desc": "Água mineral com gás.",
+        "img": "https://produto-assets-vipcommerce-com-br.br-se1.magaluobjects.com/ddefb978-3136-4251-9c50-870162eb05eb.jpg"
+    },
+    {
+        "id": 311,
+        "title": "Cerveja Heineken latão",
+        "category": "bebidas",
+        "price": 9,
+        "badge": "BEBIDA",
+        "desc": "Cerveja Heineken.",
+        "img": "https://http2.mlstatic.com/D_NQ_NP_620961-MLA99833084835_112025-O-pack-cerveja-heineken-premium-latao-12-unidades-473ml-cada.webp"
+    },
+    {
+        "id": 312,
+        "title": "Água sem Gás",
+        "category": "bebidas",
+        "price": 3,
+        "badge": "BEBIDA",
+        "desc": "Água mineral sem gás.",
+        "img": "https://distribuidoraourofino.com.br/wp-content/uploads/2022/09/agua_mineral_passa_quatro_510ml.jpg"
+    },
+    {
+        "id": 313,
+        "title": "Cerveja Antarctica  latão",
+        "category": "bebidas",
+        "price": 8,
+        "badge": "BEBIDA",
+        "desc": "Cerveja Antarctica.",
+        "img": "https://assets.ibecom.com.br/ib.item.image.large/l-0426bf41bfe249558e9473bde17b2259.jpeg"
+    },
+    {
+        "id": 314,
+        "title": "Vinho (Taça)",
+        "category": "bebidas",
+        "price": 10,
+        "badge": "BEBIDA",
+        "desc": "Taça de vinho.",
+        "img": "https://cdn.awsli.com.br/800x800/469/469651/produto/17990253/d04ad47cc7.jpg"
+    },
+    {
+        "id": 315,
+        "title": "Mantiqueira 2L",
+        "category": "bebidas",
+        "price": 10,
+        "badge": "BEBIDA",
+        "desc": "Refrigerante Mantiqueira garrafa de 2 litros.",
+        "img": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17460748726812fcf849a01_75_75.jpeg"
+    },
+    {
+        "id": 316,
+        "title": "H2O",
+        "category": "bebidas",
+        "price": 7,
+        "badge": "BEBIDA",
+        "desc": "Bebida H2O.",
+        "img": "https://anossadrogaria.vtexassets.com/arquivos/ids/4021430/968921_01.webp?v=638890699127100000"
+    },
+    {
+        "id": 401,
+        "title": "Pizza Brotinho",
+        "category": "calzones",
+        "price": 30,
+        "badge": "R$ 30,00",
+        "desc": "Todos os sabores de pizza do cardápio.",
+        "img": "https://dcdn-us.mitiendanube.com/stores/001/282/481/products/pizza_calabresa1-487998b5378cf1ca2d16033003217089-640-0.webp"
+    },
+    {
+        "id": 402,
+        "title": "Calzone de Frango",
+        "category": "calzones",
+        "price": 30,
+        "badge": "R$ 30,00",
+        "desc": "Muçarela, catupiry, frango e orégano.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtxarePAx_gcdqqlGd7gDjVWQ4FamusNuAh3gzQa7rGnyTpqt6cDgMO0I&s=10"
+    },
+    {
+        "id": 403,
+        "title": "Calzone Misto",
+        "category": "calzones",
+        "price": 30,
+        "badge": "R$ 30,00",
+        "desc": "Molho, muçarela, presunto, calabresa, milho e orégano.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9jEbCZHuo67XO0Dwicr2RltRUBBKYiXSyKCOyzPNENLXuyasBBLFa17sW&s=10"
+    },
+    {
+        "id": 404,
+        "title": "Calzone Lombo",
+        "category": "calzones",
+        "price": 30,
+        "badge": "R$ 30,00",
+        "desc": "Molho, muçarela, catupiry, lombo canadense e orégano.",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkygT6fJPP0OON4qkTP-nqWnjDJ9qC3c8K0BjkZd_xSUS4qcRYNvCx3JyQ&s=10"
+    },
+    {
+        "id": 501,
+        "category": "adicionais",
+        "title": "Borda de Catupiry",
+        "price": 7,
+        "badge": "ADICIONAL",
+        "desc": "Adicional de borda de Catupiry.",
+        "img": "https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        "id": 502,
+        "category": "adicionais",
+        "title": "Borda de Catupiry Original",
+        "price": 12,
+        "badge": "ADICIONAL",
+        "desc": "Adicional de borda de Catupiry Original.",
+        "img": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        "id": 503,
+        "category": "adicionais",
+        "title": "Borda de Cheddar",
+        "price": 12,
+        "badge": "ADICIONAL",
+        "desc": "Adicional de borda de cheddar.",
+        "img": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        "id": 504,
+        "category": "adicionais",
+        "title": "Borda de Cream Cheese",
+        "price": 12,
+        "badge": "ADICIONAL",
+        "desc": "Adicional de borda de cream cheese.",
+        "img": "https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        "id": 505,
+        "category": "adicionais",
+        "title": "Bacon",
+        "price": 7,
+        "badge": "ADICIONAL",
+        "desc": "Adicional de bacon.",
+        "img": "https://images.unsplash.com/photo-1528607929212-2636ec44253e?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        "id": 506,
+        "category": "adicionais",
+        "title": "Cheddar",
+        "price": 11,
+        "badge": "ADICIONAL",
+        "desc": "Adicional de cheddar.",
+        "img": "https://images.unsplash.com/photo-1618040996337-56904b7850b9?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        "id": 507,
+        "category": "adicionais",
+        "title": "Cream Cheese",
+        "price": 11,
+        "badge": "ADICIONAL",
+        "desc": "Adicional de cream cheese.",
+        "img": "https://images.unsplash.com/photo-1559561853-08451507cbe7?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        "id": 508,
+        "category": "adicionais",
+        "title": "Alho Frito",
+        "price": 4,
+        "badge": "ADICIONAL",
+        "desc": "Adicional de alho frito.",
+        "img": "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        "id": 509,
+        "category": "adicionais",
+        "title": "Cebola Palha Defumada",
+        "price": 4,
+        "badge": "ADICIONAL",
+        "desc": "Adicional de cebola palha defumada.",
+        "img": "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=600&q=80"
+    },
+    {
+        "id": 510,
+        "category": "adicionais",
+        "title": "Muçarela",
+        "price": 11,
+        "badge": "ADICIONAL",
+        "desc": "Adicional de muçarela.",
+        "img": "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=600&q=80"
+    }
+];
+
+        // ======================================
+        // STATE
+        // ======================================
+        const STORAGE_KEY = 'alphaMenuItems';
+
+        let menuItems = [];
+        let deliveryAreas = [];
+        let currentFilter = 'todos';
+        let confirmCallback = null;
+
+        async function apiRequest(path, options = {}) {
+            const headers = new Headers(options.headers || {});
+            if (options.body && !headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
+            const response = await fetch(path, { ...options, headers, credentials: 'same-origin' });
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(result.error || 'Não foi possível comunicar com o servidor.');
+            return result;
+        }
+
+        async function loadDeliveryAreas() {
+            const result = await apiRequest('/api/admin/delivery-areas');
+            deliveryAreas = Array.isArray(result.areas) ? result.areas : [];
+            renderDeliveryAreas();
+        }
+
+        async function loadStoreSettings() {
+            const settings = await apiRequest('/api/admin/store-settings');
+            document.getElementById('pixKeyInput').value = settings.pixKey || '';
+        }
+
+        async function saveStoreSettings() {
+            const input = document.getElementById('pixKeyInput');
+            try {
+                const settings = await apiRequest('/api/admin/store-settings', {
+                    method: 'PUT',
+                    body: JSON.stringify({ pixKey: input.value.trim() })
+                });
+                input.value = settings.pixKey;
+                showToast('Chave Pix salva!', 'success');
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        function renderDeliveryAreas() {
+            const container = document.getElementById('deliveryAreasList');
+            if (!container) return;
+            if (deliveryAreas.length === 0) {
+                container.innerHTML = '<p class="py-5 text-center text-sm text-gray-500">Nenhum bairro cadastrado.</p>';
+                return;
+            }
+            container.innerHTML = deliveryAreas.map((area, index) => `
+                <div class="delivery-area-row grid grid-cols-[1fr_140px_40px] gap-3 items-center" data-index="${index}">
+                    <input class="delivery-area-name min-w-0 bg-black/60 border border-gray-700 focus:border-brand-gold rounded-lg px-3 py-2 text-sm text-white outline-none" value="${escapeHtml(area.name)}" maxlength="80" aria-label="Nome do bairro">
+                    <input class="delivery-area-fee bg-black/60 border border-gray-700 focus:border-brand-gold rounded-lg px-3 py-2 text-sm text-white outline-none" type="number" min="0" max="10000" step="0.01" value="${Number(area.fee).toFixed(2)}" aria-label="Taxa de entrega">
+                    <button type="button" class="remove-delivery-area text-gray-400 hover:text-red-400 text-xl" title="Remover bairro" aria-label="Remover bairro">&times;</button>
+                </div>
+            `).join('');
+        }
+
+        async function saveDeliveryAreas() {
+            const rows = [...document.querySelectorAll('.delivery-area-row')];
+            const areas = rows.map(row => ({
+                name: row.querySelector('.delivery-area-name').value.trim(),
+                fee: Number(row.querySelector('.delivery-area-fee').value)
+            }));
+            if (areas.some(area => !area.name || !Number.isFinite(area.fee) || area.fee < 0)) {
+                showToast('Informe um bairro e uma taxa válida em cada linha.', 'error');
+                return;
+            }
+            try {
+                const result = await apiRequest('/api/admin/delivery-areas', {
+                    method: 'PUT',
+                    body: JSON.stringify({ areas })
+                });
+                deliveryAreas = result.areas;
+                renderDeliveryAreas();
+                showToast('Taxas de entrega salvas!', 'success');
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        // ======================================
+        // DATA PERSISTENCE
+        // ======================================
+        async function loadProducts() {
+            const serverMenu = await apiRequest('/api/menu');
+            if (serverMenu.initialized) {
+                menuItems = serverMenu.items;
+            } else {
+                let migratedMenu = null;
+                try {
+                    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+                    if (isValidMenu(saved) && saved.length > 0) migratedMenu = saved;
+                } catch {
+                    migratedMenu = null;
+                }
+                menuItems = migratedMenu || [...DEFAULT_MENU];
+                await saveProducts();
+            }
+
+            let updated = false;
+            menuItems.forEach(item => {
+                    if (item.category === 'pizzas' && !item.sizes) {
+                    const medium = item.price || 42;
+                    item.sizes = { pequena: Math.max(medium - 10, 25), media: medium, grande: medium + 10 };
+                    updated = true;
+                }
+                    if (item.category === 'pizzas' && item.sizes && !Number.isFinite(item.sizes.gg)) {
+                        item.sizes.gg = item.sizes.grande + 10;
+                        updated = true;
+                    }
+                    if (item.category === 'pizzas' && item.sizes && !Number.isFinite(item.sizes.gg)) {
+                        item.sizes.gg = item.sizes.grande + 10;
+                        updated = true;
+                    }
+            });
+            if (updated) await saveProducts();
+        }
+
+        async function saveProducts() {
+            await apiRequest('/api/admin/menu', {
+                method: 'PUT',
+                body: JSON.stringify({ items: menuItems })
+            });
+        }
+
+        // ======================================
+        // ORDERS SYSTEM (BALCÃO / COZINHA)
+        // ======================================
+        let ordersList = [];
+        let currentOrderFilter = 'todos';
+        let knownOrderIds = new Set();
+        let ordersInitialized = false;
+        let ordersPollTimer = null;
+
+        function playOrderAlertBeep() {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+                
+                // Beep sonoro duplo característico de pedidos de delivery
+                const now = ctx.currentTime;
+                
+                const osc1 = ctx.createOscillator();
+                const gain1 = ctx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(880, now); // A5
+                gain1.gain.setValueAtTime(0.25, now);
+                gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+                osc1.connect(gain1);
+                gain1.connect(ctx.destination);
+                osc1.start(now);
+                osc1.stop(now + 0.2);
+
+                const osc2 = ctx.createOscillator();
+                const gain2 = ctx.createGain();
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(1174.66, now + 0.25); // D6
+                gain2.gain.setValueAtTime(0.3, now + 0.25);
+                gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+                osc2.connect(gain2);
+                gain2.connect(ctx.destination);
+                osc2.start(now + 0.25);
+                osc2.stop(now + 0.55);
+            } catch (e) {}
+        }
+
+        async function fetchOrders() {
+            let loadedOrders = [];
+            try {
+                const res = await apiRequest('/api/admin/orders');
+                if (res && Array.isArray(res.orders)) {
+                    loadedOrders = res.orders;
+                }
+            } catch (err) {
+                // Fallback para pedidos salvos via localStorage se backend offline
+                try {
+                    const local = JSON.parse(localStorage.getItem('alpha_orders_queue') || '[]');
+                    if (Array.isArray(local)) loadedOrders = local;
+                } catch (e) {}
+            }
+
+            const isSoundEnabled = document.getElementById('soundAlertSwitch')?.checked ?? true;
+            const isAutoPrintEnabled = document.getElementById('autoPrintSwitch')?.checked ?? false;
+            let hasNewIncoming = false;
+
+            // Detectar novos pedidos
+            loadedOrders.forEach(order => {
+                if (ordersInitialized && !knownOrderIds.has(order.id) && order.status === 'novo') {
+                    hasNewIncoming = true;
+                    if (isAutoPrintEnabled) {
+                        printKitchenTicket(order);
+                    }
+                }
+                knownOrderIds.add(order.id);
+            });
+            ordersInitialized = true;
+
+            if (hasNewIncoming) {
+                showToast('🔔 Novo pedido recebido!', 'warning');
+                if (isSoundEnabled) playOrderAlertBeep();
+            }
+
+            ordersList = loadedOrders;
+            renderOrders();
+            updateOrderBadges();
+        }
+
+        function updateOrderBadges() {
+            const countAll = ordersList.length;
+            const countNew = ordersList.filter(o => o.status === 'novo').length;
+            const countPrep = ordersList.filter(o => o.status === 'em_preparo').length;
+            const countDelivery = ordersList.filter(o => o.status === 'saiu_entrega').length;
+            const countDone = ordersList.filter(o => o.status === 'concluido').length;
+
+            const badgeAll = document.getElementById('countAllOrders');
+            const badgeNew = document.getElementById('countNewOrders');
+            const badgePrep = document.getElementById('countPrepOrders');
+            const badgeDelivery = document.getElementById('countDeliveryOrders');
+            const badgeDone = document.getElementById('countDoneOrders');
+            const navBadge = document.getElementById('newOrdersBadge');
+
+            if (badgeAll) badgeAll.textContent = countAll;
+            if (badgeNew) badgeNew.textContent = countNew;
+            if (badgePrep) badgePrep.textContent = countPrep;
+            if (badgeDelivery) badgeDelivery.textContent = countDelivery;
+            if (badgeDone) badgeDone.textContent = countDone;
+
+            if (navBadge) {
+                if (countNew > 0) {
+                    navBadge.textContent = countNew;
+                    navBadge.classList.remove('hidden');
+                } else {
+                    navBadge.classList.add('hidden');
+                }
+            }
+        }
+
+        function renderOrders() {
+            const container = document.getElementById('ordersContainer');
+            const emptyMsg = document.getElementById('emptyOrdersMsg');
+            if (!container || !emptyMsg) return;
+
+            let filtered = ordersList;
+            if (currentOrderFilter !== 'todos') {
+                filtered = ordersList.filter(o => o.status === currentOrderFilter);
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = '';
+                emptyMsg.classList.remove('hidden');
+                return;
+            }
+
+            emptyMsg.classList.add('hidden');
+
+            const statusConfigs = {
+                novo: { label: 'Novo Pedido', bg: 'bg-red-500/20 text-red-400 border-red-500/40', badge: '🔴' },
+                em_preparo: { label: 'Em Preparo', bg: 'bg-amber-500/20 text-amber-300 border-amber-500/40', badge: '👨‍🍳' },
+                saiu_entrega: { label: 'Saiu p/ Entrega', bg: 'bg-blue-500/20 text-blue-400 border-blue-500/40', badge: '🛵' },
+                concluido: { label: 'Concluído', bg: 'bg-green-500/20 text-green-400 border-green-500/40', badge: '✅' },
+                cancelado: { label: 'Cancelado', bg: 'bg-gray-700 text-gray-400 border-gray-600', badge: '❌' }
+            };
+
+            container.innerHTML = filtered.map(order => {
+                const conf = statusConfigs[order.status] || statusConfigs.novo;
+                const date = new Date(order.createdAt || Date.now());
+                const timeStr = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                const dateStr = date.toLocaleDateString('pt-BR');
+
+                const itemsHtml = (order.items || []).map(item => `
+                    <div class="flex items-start justify-between text-xs py-1 border-b border-gray-800/60 last:border-0">
+                        <span class="text-white font-medium pr-2">
+                            <strong class="text-brand-gold font-bold">${item.qty}x</strong> ${escapeHtml(item.title)}
+                        </span>
+                        <span class="text-gray-400 whitespace-nowrap">R$ ${(item.price * item.qty).toFixed(2).replace('.', ',')}</span>
+                    </div>
+                `).join('');
+
+                return `
+                    <div class="bg-brand-card border border-brand-cardBorder rounded-2xl p-5 flex flex-col justify-between shadow-xl relative overflow-hidden transition-all hover:border-gray-700">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between gap-2 border-b border-gray-800/80 pb-3">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h3 class="text-base font-extrabold text-white font-heading">#${escapeHtml(order.id)}</h3>
+                                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${conf.bg}">
+                                            ${conf.badge} ${conf.label}
+                                        </span>
+                                    </div>
+                                    <span class="text-[11px] text-gray-500">${dateStr} às ${timeStr}</span>
+                                </div>
+                                <button onclick="printOrderById('${order.id}')" title="Imprimir Comanda Térmica" class="bg-black/60 border border-gray-700 hover:border-brand-gold text-brand-gold hover:text-white px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1 shadow">
+                                    ${order.printed ? '🖨️ Reimprimir' : '🖨️ Imprimir'}
+                                </button>
+                            </div>
+
+                            <div class="bg-black/40 rounded-xl p-3 border border-gray-800/60 text-xs space-y-1">
+                                <p class="text-white"><strong class="text-gray-400">Cliente:</strong> ${escapeHtml(order.customerName || 'Cliente')}</p>
+                                <p class="text-white"><strong class="text-gray-400">WhatsApp:</strong> ${escapeHtml(order.customerPhone || 'Não informado')}</p>
+                                <p class="text-white break-words"><strong class="text-gray-400">Endereço:</strong> ${escapeHtml(order.customerAddress || 'Balcão / Retirada')}</p>
+                                <p class="text-white"><strong class="text-gray-400">Bairro:</strong> ${escapeHtml(order.deliveryArea || 'Não informado')}</p>
+                                <p class="text-white"><strong class="text-gray-400">Pagamento:</strong> <span class="text-brand-gold font-semibold">${escapeHtml(order.paymentMethod || 'Não informado')}</span></p>
+                            </div>
+
+                            <div class="bg-black/20 rounded-xl p-3 border border-gray-800/40">
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500 block mb-1.5">Itens do Pedido</span>
+                                <div class="max-h-40 overflow-y-auto space-y-0.5 pr-1">
+                                    ${itemsHtml}
+                                </div>
+                                <div class="flex items-center justify-between pt-2 text-xs text-gray-400">
+                                    <span>Entrega (${escapeHtml(order.deliveryArea || 'bairro')}):</span>
+                                    <span>R$ ${Number(order.deliveryFee || 0).toFixed(2).replace('.', ',')}</span>
+                                </div>
+                                <div class="flex items-center justify-between pt-2.5 mt-2 border-t border-gray-800 text-sm font-bold">
+                                    <span class="text-gray-300">Total:</span>
+                                    <span class="text-brand-gold text-base font-heading">R$ ${(order.total || 0).toFixed(2).replace('.', ',')}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 mt-3 border-t border-gray-800/80 flex flex-col gap-2">
+                            <div class="flex items-center gap-1.5">
+                                <label class="text-[10px] uppercase font-bold text-gray-500">Status:</label>
+                                <select onchange="changeOrderStatus('${order.id}', this.value)" class="flex-1 bg-black/60 border border-gray-700 rounded-lg px-2 py-1 text-xs text-white outline-none focus:border-brand-gold">
+                                    <option value="novo" ${order.status === 'novo' ? 'selected' : ''}>🔴 Novo Pedido</option>
+                                    <option value="em_preparo" ${order.status === 'em_preparo' ? 'selected' : ''}>👨‍🍳 Em Preparo</option>
+                                    <option value="saiu_entrega" ${order.status === 'saiu_entrega' ? 'selected' : ''}>🛵 Saiu para Entrega</option>
+                                    <option value="concluido" ${order.status === 'concluido' ? 'selected' : ''}>✅ Concluído</option>
+                                    <option value="cancelado" ${order.status === 'cancelado' ? 'selected' : ''}>❌ Cancelado</option>
+                                </select>
+                            </div>
+                            ${order.status === 'saiu_entrega' ? `
+                                <button onclick="openOrderWhatsApp('${order.id}')" class="w-full bg-green-700 hover:bg-green-600 text-white px-3 py-2 rounded-lg text-xs font-bold transition-all">
+                                    💬 Abrir WhatsApp do cliente
+                                </button>
+                            ` : ''}
+                            ${order.status === 'concluido' ? `
+                                <button onclick="confirmDeleteCompletedOrder('${order.id}')" class="w-full bg-red-900/70 hover:bg-red-800 text-red-100 px-3 py-2 rounded-lg text-xs font-bold transition-all">
+                                    🗑️ Excluir pedido finalizado
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openOrderWhatsApp(id) {
+            const order = ordersList.find(o => o.id === id);
+            const phone = order?.customerPhone?.replace(/\D/g, '');
+            if (!phone) {
+                showToast('Este pedido não tem WhatsApp cadastrado.', 'warning');
+                return;
+            }
+
+            const message = `Olá, ${order.customerName || 'tudo bem'}! Seu pedido #${order.id} saiu para entrega e já está a caminho. Obrigado por escolher a Alpha Pizzas!`;
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+        }
+
+        function confirmDeleteCompletedOrder(id) {
+            const order = ordersList.find(o => o.id === id);
+            if (!order || order.status !== 'concluido') return;
+
+            showConfirm(
+                'Excluir pedido finalizado?',
+                `O pedido #${id} será removido permanentemente. Esta ação não pode ser desfeita.`,
+                () => deleteCompletedOrder(id)
+            );
+        }
+
+        async function deleteCompletedOrder(id) {
+            await apiRequest('/api/admin/orders', {
+                method: 'DELETE',
+                body: JSON.stringify({ id })
+            });
+            ordersList = ordersList.filter(order => order.id !== id);
+            renderOrders();
+            updateOrderBadges();
+            showToast(`Pedido #${id} excluído.`, 'success');
+        }
+
+        async function changeOrderStatus(id, newStatus) {
+            const order = ordersList.find(o => o.id === id);
+            const opensWhatsApp = newStatus === 'saiu_entrega';
+            const whatsappWindow = opensWhatsApp && order?.customerPhone
+                ? window.open('about:blank', '_blank')
+                : null;
+            if (whatsappWindow) whatsappWindow.opener = null;
+
+            try {
+                const result = await apiRequest('/api/admin/orders', {
+                    method: 'PATCH',
+                    body: JSON.stringify({ id, status: newStatus })
+                });
+                if (order) Object.assign(order, result.order);
+                renderOrders();
+                updateOrderBadges();
+                if (opensWhatsApp && result.statusChanged) {
+                    if (!order?.customerPhone) {
+                        whatsappWindow?.close();
+                        showToast('Status atualizado, mas este pedido não tem WhatsApp cadastrado.', 'warning');
+                    } else if (!whatsappWindow) {
+                        showToast('Status atualizado. Permita pop-ups para abrir o WhatsApp e avisar o cliente.', 'warning');
+                    } else {
+                        const message = `Olá, ${order.customerName || 'tudo bem'}! Seu pedido #${order.id} saiu para entrega e já está a caminho. Obrigado por escolher a Alpha Pizzas!`;
+                        whatsappWindow.location.href = `https://wa.me/${order.customerPhone}?text=${encodeURIComponent(message)}`;
+                        showToast('WhatsApp aberto com a mensagem pronta. Confira e toque em Enviar.', 'success');
+                    }
+                } else {
+                    whatsappWindow?.close();
+                    showToast(`Status do pedido #${id} atualizado!`, 'success');
+                }
+            } catch (err) {
+                whatsappWindow?.close();
+                showToast(err.message, 'error');
+                await loadOrders();
+            }
+        }
+
+        function printOrderById(id) {
+            const order = ordersList.find(o => o.id === id);
+            if (!order) return;
+            printKitchenTicket(order);
+            renderOrders();
+        }
+
+        function printKitchenTicket(order) {
+            if (!order) return;
+            const date = new Date(order.createdAt || Date.now());
+            const dateStr = date.toLocaleDateString('pt-BR');
+            const timeStr = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+            let total = 0;
+            const deliveryFee = Number(order.deliveryFee) || 0;
+            const itemsHtml = (order.items || []).map(item => {
+                const sub = (item.price || 0) * (item.qty || 1);
+                total += sub;
+                return `
+                    <tr>
+                        <td style="padding: 4px 0; border-bottom: 1px dashed #444; font-size: 14px; font-weight: bold;">
+                            ${item.qty}x ${escapeHtml(item.title)}
+                        </td>
+                        <td style="padding: 4px 0; border-bottom: 1px dashed #444; text-align: right; white-space: nowrap; font-size: 13px;">
+                            R$ ${sub.toFixed(2).replace('.', ',')}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            const ticketHtml = `
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Comanda - #${order.id}</title>
+    <style>
+        @page {
+            size: 80mm auto;
+            margin: 4mm;
+        }
+        body {
+            font-family: 'Courier New', Courier, monospace, sans-serif;
+            color: #000;
+            background: #fff;
+            margin: 0;
+            padding: 6px;
+            max-width: 300px;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px dashed #000;
+            padding-bottom: 6px;
+            margin-bottom: 6px;
+        }
+        .order-title {
+            font-size: 18px;
+            font-weight: 900;
+            margin: 2px 0;
+        }
+        .meta {
+            font-size: 12px;
+            border-bottom: 1px dashed #000;
+            padding-bottom: 6px;
+            margin-bottom: 6px;
+        }
+        .meta-line {
+            margin: 3px 0;
+            word-break: break-word;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 6px 0;
+        }
+        .total-box {
+            border-top: 2px dashed #000;
+            border-bottom: 2px dashed #000;
+            padding: 6px 0;
+            margin: 6px 0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            font-weight: 900;
+        }
+        .footer {
+            text-align: center;
+            font-size: 11px;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 style="margin:0; font-size:16px;">🍕 ALPHA PIZZAS</h1>
+        <div class="order-title">PEDIDO #${escapeHtml(order.id)}</div>
+        <div style="font-size: 11px;">*** COMANDA COZINHA / BALCÃO ***</div>
+    </div>
+    <div class="meta">
+        <div class="meta-line"><strong>Data/Hora:</strong> ${dateStr} às ${timeStr}</div>
+        <div class="meta-line"><strong>Cliente:</strong> ${escapeHtml(order.customerName || 'Cliente')}</div>
+        <div class="meta-line"><strong>Endereço:</strong> ${escapeHtml(order.customerAddress || 'Balcão / Retirada')}</div>
+        <div class="meta-line"><strong>Bairro:</strong> ${escapeHtml(order.deliveryArea || 'Não informado')}</div>
+        <div class="meta-line"><strong>Pagamento:</strong> ${escapeHtml(order.paymentMethod || 'A combinar')}</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th style="text-align: left; border-bottom: 1px solid #000; padding-bottom: 3px; font-size: 12px;">Qtd / Item</th>
+                <th style="text-align: right; border-bottom: 1px solid #000; padding-bottom: 3px; font-size: 12px;">Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${itemsHtml}
+            <tr>
+                <td style="padding: 4px 0; border-top: 1px solid #000; font-size: 13px;">Taxa de entrega</td>
+                <td style="padding: 4px 0; border-top: 1px solid #000; text-align: right; white-space: nowrap; font-size: 13px;">R$ ${deliveryFee.toFixed(2).replace('.', ',')}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="total-box">
+        <span>TOTAL:</span>
+        <span>R$ ${(order.total || total).toFixed(2).replace('.', ',')}</span>
+    </div>
+    <div class="footer">
+        <div>Alpha Pizzas • Rio Claro - RJ</div>
+        <div style="margin-top: 3px;">(24) 99835-4561</div>
+    </div>
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                window.print();
+            }, 250);
+        });
+    <\/script>
+</body>
+</html>
+            `;
+
+            const printFrame = document.createElement('iframe');
+            printFrame.style.position = 'fixed';
+            printFrame.style.right = '0';
+            printFrame.style.bottom = '0';
+            printFrame.style.width = '0';
+            printFrame.style.height = '0';
+            printFrame.style.border = '0';
+            document.body.appendChild(printFrame);
+
+            const doc = printFrame.contentWindow.document;
+            doc.open();
+            doc.write(ticketHtml);
+            doc.close();
+
+            order.printed = true;
+            apiRequest('/api/admin/orders', {
+                method: 'PATCH',
+                body: JSON.stringify({ id: order.id, printed: true })
+            }).catch(() => {
+                order.printed = false;
+                renderOrders();
+                showToast('A comanda abriu, mas não foi possível salvar o status de impressão.', 'warning');
+            });
+
+            setTimeout(() => {
+                printFrame.remove();
+            }, 60000);
+        }
+
+        // ======================================
+        // AUTH
+        // ======================================
+        async function showAdmin() {
+            await loadProducts();
+            await fetchOrders();
+            await loadDeliveryAreas();
+            await loadStoreSettings();
+
+            // Iniciar pooling de pedidos a cada 5 segundos
+            if (ordersPollTimer) clearInterval(ordersPollTimer);
+            ordersPollTimer = setInterval(() => {
+                fetchOrders();
+            }, 5000);
+
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('adminPanel').classList.remove('hidden');
+            renderProducts();
+            updateStats();
+        }
+
+        // ======================================
+        // TOASTS
+        // ======================================
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            const colors = {
+                success: 'bg-green-600 border-green-500',
+                error: 'bg-red-600 border-red-500',
+                info: 'bg-blue-600 border-blue-500',
+                warning: 'bg-amber-600 border-amber-500'
+            };
+            toast.className = `toast ${colors[type] || colors.success} border text-white text-sm font-semibold px-4 py-3 rounded-xl shadow-lg max-w-xs`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // ======================================
+        // MODALS
+        // ======================================
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function showConfirm(title, message, callback) {
+            document.getElementById('confirmTitle').textContent = title;
+            document.getElementById('confirmMessage').textContent = message;
+            confirmCallback = callback;
+            openModal('confirmModal');
+        }
+
+        // ======================================
+        // CATEGORY HELPERS
+        // ======================================
+        const categoryLabels = {
+            'esfihas-salgadas': { label: 'Esfiha Salgada', emoji: '🥐', color: 'text-green-400', dot: 'bg-green-400' },
+            'esfihas-doces': { label: 'Esfiha Doce', emoji: '🍫', color: 'text-pink-400', dot: 'bg-pink-400' },
+            'pizzas': { label: 'Pizza', emoji: '🍕', color: 'text-orange-400', dot: 'bg-orange-400' },
+            'calzones': { label: 'Brotinhos & Calzones', emoji: '🥟', color: 'text-amber-400', dot: 'bg-amber-400' },
+            'adicionais': { label: 'Adicional', emoji: '➕', color: 'text-yellow-300', dot: 'bg-yellow-300' },
+            'bebidas': { label: 'Bebida', emoji: '🥤', color: 'text-cyan-400', dot: 'bg-cyan-400' }
+        };
+
+        function escapeHtml(value) {
+            return String(value).replace(/[&<>"']/g, char => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            })[char]);
+        }
+
+        function isValidMenu(products) {
+            if (!Array.isArray(products)) return false;
+            const ids = new Set();
+            return products.every(item => {
+                if (!item || typeof item !== 'object' || Array.isArray(item) ||
+                    !Number.isSafeInteger(item.id) || item.id <= 0 || ids.has(item.id) ||
+                    !Object.prototype.hasOwnProperty.call(categoryLabels, item.category) ||
+                    typeof item.title !== 'string' || !item.title.trim() ||
+                    typeof item.desc !== 'string' || typeof item.badge !== 'string' ||
+                    typeof item.img !== 'string' || !Number.isFinite(item.price) || item.price < 0 ||
+                    (item.available !== undefined && typeof item.available !== 'boolean')) {
+                    return false;
+                }
+                ids.add(item.id);
+                if (item.img) {
+                    try {
+                        const protocol = new URL(item.img, window.location.href).protocol;
+                        if (!['http:', 'https:', 'file:'].includes(protocol)) return false;
+                    } catch {
+                        return false;
+                    }
+                }
+                if (item.category !== 'pizzas' && item.sizes !== undefined) return false;
+                if (item.sizes !== undefined && (!item.sizes || typeof item.sizes !== 'object' || Array.isArray(item.sizes) ||
+                    !['pequena', 'media', 'grande'].every(size => Number.isFinite(item.sizes[size]) && item.sizes[size] >= 0) ||
+                    (item.sizes.gg !== undefined && (!Number.isFinite(item.sizes.gg) || item.sizes.gg < 0)))) {
+                    return false;
+                }
+                return true;
+            });
+        }
+
+        function getCatInfo(cat) {
+            return categoryLabels[cat] || { label: cat, emoji: '📦', color: 'text-gray-400', dot: 'bg-gray-400' };
+        }
+
+        // ======================================
+        // RENDER PRODUCTS
+        // ======================================
+        function renderProducts() {
+            const list = document.getElementById('productsList');
+            const empty = document.getElementById('emptyState');
+            const search = (document.getElementById('searchInput')?.value || '').toLowerCase();
+
+            let filtered = menuItems;
+            if (currentFilter !== 'todos') {
+                filtered = filtered.filter(i => i.category === currentFilter);
+            }
+            if (search) {
+                filtered = filtered.filter(i =>
+                    i.title.toLowerCase().includes(search) ||
+                    i.desc.toLowerCase().includes(search) ||
+                    i.badge.toLowerCase().includes(search)
+                );
+            }
+
+            if (filtered.length === 0) {
+                list.innerHTML = '';
+                empty.classList.remove('hidden');
+                return;
+            }
+
+            empty.classList.add('hidden');
+            list.innerHTML = filtered.map(item => {
+                const cat = getCatInfo(item.category);
+                const hasSizes = item.category === 'pizzas' && item.sizes;
+                const priceHtml = hasSizes
+                    ? `<div class="text-[11px] leading-tight space-y-0.5">
+                         <span class="block text-brand-gold font-bold">P: R$ ${parseFloat(item.sizes.pequena).toFixed(2).replace('.', ',')}</span>
+                         <span class="block text-white font-bold">M: R$ ${parseFloat(item.sizes.media).toFixed(2).replace('.', ',')}</span>
+                         <span class="block text-amber-400 font-bold">G: R$ ${parseFloat(item.sizes.grande).toFixed(2).replace('.', ',')}</span>
+                         <span class="block text-red-300 font-bold">GG: R$ ${parseFloat(item.sizes.gg ?? item.sizes.grande + 10).toFixed(2).replace('.', ',')}</span>
+                       </div>`
+                    : `<span class="text-sm font-bold text-brand-gold">R$ ${item.price.toFixed(2).replace('.', ',')}</span>`;
+
+                const mobilePriceHtml = hasSizes
+                    ? `<span class="lg:hidden text-xs font-bold text-brand-gold mr-auto">P ${parseFloat(item.sizes.pequena).toFixed(0)} | M ${parseFloat(item.sizes.media).toFixed(0)} | G ${parseFloat(item.sizes.grande).toFixed(0)} | GG ${parseFloat(item.sizes.gg ?? item.sizes.grande + 10).toFixed(0)}</span>`
+                    : `<span class="lg:hidden text-sm font-bold text-brand-gold mr-auto">R$ ${item.price.toFixed(2).replace('.', ',')}</span>`;
+
+                return `
+                    <div class="product-row grid grid-cols-1 lg:grid-cols-[60px_1fr_130px_130px_110px_70px_90px] gap-3 px-5 py-3 items-center">
+                        <!-- Image -->
+                        <div class="hidden lg:block">
+                            <div class="w-11 h-11 rounded-lg overflow-hidden border border-gray-700 bg-black/40">
+                                <img src="${escapeHtml(item.img)}" alt="" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/80x80/161922/ffb703?text=?'">
+                            </div>
+                        </div>
+
+                        <!-- Product Name & Desc -->
+                        <div class="flex lg:block items-center gap-3 min-w-0">
+                            <div class="lg:hidden w-11 h-11 rounded-lg overflow-hidden border border-gray-700 bg-black/40 flex-shrink-0">
+                                <img src="${escapeHtml(item.img)}" alt="" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/80x80/161922/ffb703?text=?'">
+                            </div>
+                            <div>
+                                <span class="text-sm font-bold text-white block">${escapeHtml(item.title)}</span>
+                                <span class="text-[11px] text-gray-500 line-clamp-1">${escapeHtml(item.desc)}</span>
+                                ${item.available === false ? '<span class="text-[10px] font-bold uppercase text-red-400">Esgotado</span>' : ''}
+                            </div>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="hidden lg:flex items-center gap-1.5">
+                            <span class="category-dot ${cat.dot}"></span>
+                            <span class="text-xs ${cat.color} font-semibold">${cat.label}</span>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="hidden lg:block">
+                            ${priceHtml}
+                        </div>
+
+                        <!-- Badge -->
+                        <span class="hidden lg:block">
+                            <span class="text-[10px] font-bold bg-brand-red/20 text-brand-red px-2 py-0.5 rounded-full">${escapeHtml(item.badge)}</span>
+                        </span>
+
+                        <!-- ID -->
+                        <span class="hidden lg:block text-xs text-gray-600 font-mono">#${item.id}</span>
+
+                        <!-- Actions -->
+                        <div class="flex items-center gap-1.5 justify-end">
+                            ${mobilePriceHtml}
+                            <button onclick="editProduct(${item.id})" class="bg-brand-card border border-brand-cardBorder hover:border-brand-gold text-gray-300 hover:text-white px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all" title="Editar">
+                                ✏️
+                            </button>
+                            <button onclick="deleteProduct(${item.id})" class="bg-brand-card border border-brand-cardBorder hover:border-red-500 text-gray-300 hover:text-red-400 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all" title="Excluir">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ======================================
+        // STATS
+        // ======================================
+        function updateStats() {
+            document.getElementById('statTotal').textContent = menuItems.length;
+            document.getElementById('statEsfihasSalg').textContent = menuItems.filter(i => i.category === 'esfihas-salgadas').length;
+            document.getElementById('statEsfihasDoces').textContent = menuItems.filter(i => i.category === 'esfihas-doces').length;
+            document.getElementById('statPizzas').textContent = menuItems.filter(i => i.category === 'pizzas' || i.category === 'calzones' || i.category === 'adicionais' || i.category === 'bebidas').length;
+        }
+
+        // ======================================
+        // CRUD & FORM LOGIC
+        // ======================================
+        function onCategoryChange() {
+            const cat = document.getElementById('fieldCategory').value;
+            const sizesSection = document.getElementById('pizzaSizesSection');
+            const priceLabel = document.getElementById('fieldPriceLabel');
+            if (cat === 'pizzas') {
+                sizesSection.classList.remove('hidden');
+                priceLabel.textContent = 'Preço Médio (M) *';
+                const currentPrice = document.getElementById('fieldPrice').value;
+                if (!document.getElementById('fieldPriceM').value && currentPrice) {
+                    document.getElementById('fieldPriceM').value = currentPrice;
+                }
+            } else {
+                sizesSection.classList.add('hidden');
+                priceLabel.textContent = 'Preço (R$) *';
+            }
+        }
+
+        function openAddProduct() {
+            document.getElementById('modalTitle').textContent = 'Novo Produto';
+            document.getElementById('editId').value = '';
+            document.getElementById('productForm').reset();
+            document.getElementById('fieldPriceP').value = '';
+            document.getElementById('fieldPriceM').value = '';
+            document.getElementById('fieldPriceG').value = '';
+            document.getElementById('fieldPriceGG').value = '';
+            document.getElementById('fieldAvailable').checked = true;
+            document.getElementById('imgPreview').classList.add('hidden');
+            document.getElementById('imgPlaceholder').classList.remove('hidden');
+            onCategoryChange();
+            openModal('productModal');
+        }
+
+        function editProduct(id) {
+            const item = menuItems.find(i => i.id === id);
+            if (!item) return;
+
+            document.getElementById('modalTitle').textContent = 'Editar Produto';
+            document.getElementById('editId').value = id;
+            document.getElementById('fieldTitle').value = item.title;
+            document.getElementById('fieldCategory').value = item.category;
+            document.getElementById('fieldPrice').value = item.price;
+            document.getElementById('fieldBadge').value = item.badge;
+            document.getElementById('fieldAvailable').checked = item.available !== false;
+            document.getElementById('fieldDesc').value = item.desc;
+            document.getElementById('fieldImg').value = item.img;
+
+            if (item.category === 'pizzas') {
+                const sizes = item.sizes || {
+                    pequena: Math.max((item.price || 42) - 10, 25),
+                    media: item.price || 42,
+                    grande: (item.price || 42) + 10,
+                    gg: (item.price || 42) + 20
+                };
+                document.getElementById('fieldPriceP').value = sizes.pequena;
+                document.getElementById('fieldPriceM').value = sizes.media;
+                document.getElementById('fieldPriceG').value = sizes.grande;
+                document.getElementById('fieldPriceGG').value = sizes.gg ?? sizes.grande + 10;
+            } else {
+                document.getElementById('fieldPriceP').value = '';
+                document.getElementById('fieldPriceM').value = '';
+                document.getElementById('fieldPriceG').value = '';
+                document.getElementById('fieldPriceGG').value = '';
+            }
+
+            onCategoryChange();
+            updateImagePreview(item.img);
+            openModal('productModal');
+        }
+
+        function deleteProduct(id) {
+            const item = menuItems.find(i => i.id === id);
+            if (!item) return;
+            showConfirm(
+                'Excluir produto?',
+                `"${item.title}" será removido do cardápio permanentemente.`,
+                async () => {
+                    const previousMenu = menuItems;
+                    menuItems = menuItems.filter(i => i.id !== id);
+                    try {
+                        await saveProducts();
+                    } catch (error) {
+                        menuItems = previousMenu;
+                        showToast(error.message, 'error');
+                        return;
+                    }
+                    renderProducts();
+                    updateStats();
+                    showToast('Produto excluído com sucesso!', 'info');
+                }
+            );
+        }
+
+        async function saveProduct(e) {
+            e.preventDefault();
+
+            const editId = document.getElementById('editId').value;
+            const category = document.getElementById('fieldCategory').value;
+            let price = parseFloat(document.getElementById('fieldPrice').value);
+
+            let sizes = null;
+            if (category === 'pizzas') {
+                const priceM = parseFloat(document.getElementById('fieldPriceM').value) || price || 42;
+                const priceP = parseFloat(document.getElementById('fieldPriceP').value) || Math.max(priceM - 10, 20);
+                const priceG = parseFloat(document.getElementById('fieldPriceG').value) || (priceM + 10);
+                const priceGG = parseFloat(document.getElementById('fieldPriceGG').value) || (priceG + 10);
+                sizes = {
+                    pequena: priceP,
+                    media: priceM,
+                    grande: priceG,
+                    gg: priceGG
+                };
+                price = priceM;
+            }
+
+            const product = {
+                id: editId ? parseInt(editId) : Date.now(),
+                title: document.getElementById('fieldTitle').value.trim(),
+                category: category,
+                price: price,
+                available: document.getElementById('fieldAvailable').checked,
+                badge: document.getElementById('fieldBadge').value.trim() || 'NOVO',
+                desc: document.getElementById('fieldDesc').value.trim(),
+                img: document.getElementById('fieldImg').value.trim() || `https://placehold.co/400x300/161922/ffb703?text=${encodeURIComponent(document.getElementById('fieldTitle').value.trim())}`
+            };
+
+            if (sizes) {
+                product.sizes = sizes;
+            }
+
+            const previousMenu = [...menuItems];
+            if (editId) {
+                const idx = menuItems.findIndex(i => i.id === parseInt(editId));
+                if (idx !== -1) menuItems[idx] = product;
+            } else {
+                menuItems.push(product);
+            }
+
+            try {
+                await saveProducts();
+            } catch (error) {
+                menuItems = previousMenu;
+                showToast(error.message, 'error');
+                return;
+            }
+            renderProducts();
+            updateStats();
+            closeModal('productModal');
+            showToast(editId ? 'Produto atualizado!' : 'Novo produto cadastrado!', 'success');
+        }
+
+        function updateImagePreview(url) {
+            const preview = document.getElementById('imgPreview');
+            const placeholder = document.getElementById('imgPlaceholder');
+            if (url) {
+                preview.src = url;
+                preview.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+                preview.onerror = () => {
+                    preview.classList.add('hidden');
+                    placeholder.classList.remove('hidden');
+                };
+            } else {
+                preview.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+            }
+        }
+
+        // ======================================
+        // IMPORT / EXPORT
+        // ======================================
+        function exportProducts() {
+            const data = JSON.stringify(menuItems, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `alpha_pizzas_cardapio_${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Cardápio exportado com sucesso!', 'info');
+        }
+
+        function importProducts(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (!isValidMenu(data)) throw new Error('Formato inválido');
+                    showConfirm(
+                        'Importar cardápio?',
+                        `${data.length} produtos serão importados, substituindo o cardápio atual.`,
+                        async () => {
+                            const previousMenu = menuItems;
+                            menuItems = data;
+                            try {
+                                await saveProducts();
+                            } catch (error) {
+                                menuItems = previousMenu;
+                                showToast(error.message, 'error');
+                                return;
+                            }
+                            renderProducts();
+                            updateStats();
+                            showToast(`${data.length} produtos importados!`, 'success');
+                        }
+                    );
+                } catch {
+                    showToast('Erro: arquivo JSON inválido.', 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // ======================================
+        // INIT
+        // ======================================
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // LOGIN
+            document.getElementById('loginForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const errorEl = document.getElementById('loginError');
+                try {
+                    await apiRequest('/api/admin/login', {
+                        method: 'POST',
+                        body: JSON.stringify({ password: document.getElementById('loginPassword').value })
+                    });
+                    await showAdmin();
+                } catch (error) {
+                    errorEl.textContent = error.message;
+                    errorEl.classList.remove('hidden');
+                    document.getElementById('loginPassword').value = '';
+                    setTimeout(() => errorEl.classList.add('hidden'), 4000);
+                }
+            });
+
+            // LOGOUT
+            document.getElementById('logoutBtn').addEventListener('click', async () => {
+                try {
+                    await apiRequest('/api/admin/logout', { method: 'POST', body: '{}' });
+                } catch (error) {
+                    showToast(error.message, 'error');
+                }
+                document.getElementById('adminPanel').classList.add('hidden');
+                document.getElementById('loginScreen').classList.remove('hidden');
+                document.getElementById('loginPassword').value = '';
+            });
+
+            // FILTERS
+            document.querySelectorAll('.admin-filter').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.admin-filter').forEach(b => {
+                        b.classList.remove('active', 'bg-brand-red', 'text-white');
+                        b.classList.add('bg-brand-card', 'text-gray-300');
+                    });
+                    e.target.classList.add('active', 'bg-brand-red', 'text-white');
+                    e.target.classList.remove('bg-brand-card', 'text-gray-300');
+                    currentFilter = e.target.getAttribute('data-filter');
+                    renderProducts();
+                });
+            });
+
+            // SEARCH
+            document.getElementById('searchInput').addEventListener('input', renderProducts);
+
+            // ADD PRODUCT
+            document.getElementById('addProductBtn').addEventListener('click', openAddProduct);
+
+            // CATEGORY & PIZZA SIZES SYNC
+            document.getElementById('fieldCategory').addEventListener('change', onCategoryChange);
+            document.getElementById('fieldPrice').addEventListener('input', (e) => {
+                if (document.getElementById('fieldCategory').value === 'pizzas') {
+                    document.getElementById('fieldPriceM').value = e.target.value;
+                }
+            });
+            document.getElementById('fieldPriceM').addEventListener('input', (e) => {
+                document.getElementById('fieldPrice').value = e.target.value;
+            });
+
+            // PRODUCT FORM
+            document.getElementById('productForm').addEventListener('submit', saveProduct);
+
+            // IMAGE PREVIEW
+            document.getElementById('fieldImg').addEventListener('input', (e) => {
+                updateImagePreview(e.target.value);
+            });
+            document.getElementById('imageFile').addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast('A imagem deve ter no máximo 5 MB.', 'error');
+                    e.target.value = '';
+                    return;
+                }
+                try {
+                    const dataUrl = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result);
+                        reader.onerror = () => reject(new Error('Não foi possível ler o arquivo.'));
+                        reader.readAsDataURL(file);
+                    });
+                    const result = await apiRequest('/api/admin/images', {
+                        method: 'POST',
+                        body: JSON.stringify({ dataUrl })
+                    });
+                    document.getElementById('fieldImg').value = result.url;
+                    updateImagePreview(result.url);
+                    showToast('Imagem enviada para o servidor.', 'success');
+                } catch (error) {
+                    showToast(error.message, 'error');
+                } finally {
+                    e.target.value = '';
+                }
+            });
+
+            // CLOSE MODALS
+            document.getElementById('closeModalBtn').addEventListener('click', () => closeModal('productModal'));
+            document.getElementById('cancelModalBtn').addEventListener('click', () => closeModal('productModal'));
+
+            // CONFIRM MODAL
+            document.getElementById('confirmOkBtn').addEventListener('click', async () => {
+                try {
+                    if (confirmCallback) await confirmCallback();
+                } catch (error) {
+                    showToast(error.message, 'error');
+                }
+                closeModal('confirmModal');
+                confirmCallback = null;
+            });
+            document.getElementById('confirmCancelBtn').addEventListener('click', () => {
+                closeModal('confirmModal');
+                confirmCallback = null;
+            });
+
+            // EXPORT / IMPORT
+            document.getElementById('exportBtn').addEventListener('click', exportProducts);
+            document.getElementById('importInput').addEventListener('change', (e) => {
+                if (e.target.files[0]) {
+                    importProducts(e.target.files[0]);
+                    e.target.value = '';
+                }
+            });
+
+            // RESET DEFAULTS
+            document.getElementById('resetDefaultsBtn').addEventListener('click', () => {
+                showConfirm(
+                    'Restaurar cardápio padrão?',
+                    'Todas as alterações feitas serão perdidas e o cardápio original será restaurado.',
+                    async () => {
+                        const previousMenu = menuItems;
+                        menuItems = [...DEFAULT_MENU];
+                        try {
+                            await saveProducts();
+                        } catch (error) {
+                            menuItems = previousMenu;
+                            showToast(error.message, 'error');
+                            return;
+                        }
+                        renderProducts();
+                        updateStats();
+                        showToast('Cardápio restaurado ao padrão!', 'warning');
+                    }
+                );
+            });
+
+            // PASSWORD CHANGE
+            document.getElementById('changePasswordBtn').addEventListener('click', () => {
+                document.getElementById('passwordForm').reset();
+                document.getElementById('passError').classList.add('hidden');
+                openModal('passwordModal');
+            });
+            document.getElementById('cancelPassBtn').addEventListener('click', () => closeModal('passwordModal'));
+
+            document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const current = document.getElementById('currentPass').value;
+                const newP = document.getElementById('newPass').value;
+                const confirm = document.getElementById('confirmPass').value;
+                const errEl = document.getElementById('passError');
+
+                if (newP.length < 12) {
+                    errEl.textContent = '❌ A nova senha deve ter pelo menos 12 caracteres.';
+                    errEl.classList.remove('hidden');
+                    return;
+                }
+                if (newP !== confirm) {
+                    errEl.textContent = '❌ As senhas não coincidem.';
+                    errEl.classList.remove('hidden');
+                    return;
+                }
+
+                try {
+                    await apiRequest('/api/admin/password', {
+                        method: 'POST',
+                        body: JSON.stringify({ currentPassword: current, newPassword: newP })
+                    });
+                    closeModal('passwordModal');
+                    document.getElementById('adminPanel').classList.add('hidden');
+                    document.getElementById('loginScreen').classList.remove('hidden');
+                    document.getElementById('loginPassword').value = '';
+                    showToast('Senha alterada. Entre novamente com a nova senha.', 'success');
+                } catch (error) {
+                    errEl.textContent = `❌ ${error.message}`;
+                    errEl.classList.remove('hidden');
+                }
+            });
+
+            apiRequest('/api/admin/session')
+                .then(result => result.authenticated ? showAdmin() : null)
+                .catch(error => {
+                    const errorEl = document.getElementById('loginError');
+                    errorEl.textContent = error.message;
+                    errorEl.classList.remove('hidden');
+                })
+                .catch(error => showToast(error.message, 'error'));
+
+            // TABS SWITCHING (PEDIDOS VS CARDÁPIO)
+            const tabOrdersBtn = document.getElementById('tabOrdersBtn');
+            const tabMenuBtn = document.getElementById('tabMenuBtn');
+            const tabDeliveryBtn = document.getElementById('tabDeliveryBtn');
+            const sectionOrders = document.getElementById('sectionOrders');
+            const sectionMenu = document.getElementById('sectionMenu');
+            const sectionDelivery = document.getElementById('sectionDelivery');
+
+            function activateAdminTab(activeButton, activeSection) {
+                [tabOrdersBtn, tabMenuBtn, tabDeliveryBtn].forEach(button => {
+                    button.className = button === activeButton
+                        ? 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-brand-red text-white'
+                        : 'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-white';
+                });
+                [sectionOrders, sectionMenu, sectionDelivery].forEach(section => {
+                    section.classList.toggle('hidden', section !== activeSection);
+                });
+            }
+
+            tabOrdersBtn?.addEventListener('click', () => {
+                activateAdminTab(tabOrdersBtn, sectionOrders);
+                fetchOrders();
+            });
+
+            tabMenuBtn?.addEventListener('click', () => {
+                activateAdminTab(tabMenuBtn, sectionMenu);
+            });
+
+            tabDeliveryBtn?.addEventListener('click', () => activateAdminTab(tabDeliveryBtn, sectionDelivery));
+            document.getElementById('addDeliveryAreaBtn')?.addEventListener('click', () => {
+                deliveryAreas.push({ name: '', fee: 0 });
+                renderDeliveryAreas();
+                document.querySelector('.delivery-area-row:last-child .delivery-area-name')?.focus();
+            });
+            document.getElementById('deliveryAreasList')?.addEventListener('click', event => {
+                const button = event.target.closest('.remove-delivery-area');
+                if (!button) return;
+                deliveryAreas.splice(Number(button.closest('.delivery-area-row').dataset.index), 1);
+                renderDeliveryAreas();
+            });
+            document.getElementById('saveDeliveryAreasBtn')?.addEventListener('click', saveDeliveryAreas);
+            document.getElementById('savePixKeyBtn')?.addEventListener('click', saveStoreSettings);
+
+            // REFRESH ORDERS BUTTON
+            document.getElementById('refreshOrdersBtn')?.addEventListener('click', async () => {
+                await fetchOrders();
+                showToast('Pedidos atualizados!', 'info');
+            });
+
+            // ORDER STATUS FILTERS
+            document.querySelectorAll('.order-filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.order-filter-btn').forEach(b => {
+                        b.classList.remove('active', 'bg-brand-red', 'text-white');
+                        b.classList.add('bg-brand-card', 'text-gray-300');
+                    });
+                    const target = e.currentTarget;
+                    target.classList.add('active', 'bg-brand-red', 'text-white');
+                    target.classList.remove('bg-brand-card', 'text-gray-300');
+                    currentOrderFilter = target.getAttribute('data-order-status') || 'todos';
+                    renderOrders();
+                });
+            });
+
+            // CLOSE MODALS ON OVERLAY CLICK
+            ['productModal', 'confirmModal', 'passwordModal'].forEach(id => {
+                document.getElementById(id).addEventListener('click', (e) => {
+                    if (e.target.id === id) closeModal(id);
+                });
+            });
+
+            // ESC KEY
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal('productModal');
+                    closeModal('confirmModal');
+                    closeModal('passwordModal');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

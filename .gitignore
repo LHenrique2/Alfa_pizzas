@@ -1,0 +1,4 @@
+.env
+data/admin-password.json
+data/*.tmp
+node_modules/

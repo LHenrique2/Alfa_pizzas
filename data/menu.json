@@ -1,0 +1,749 @@
+[
+  {
+    "id": 101,
+    "title": "Esfiha de Calabresa",
+    "category": "esfihas-salgadas",
+    "price": 5,
+    "badge": "R$ 5,00",
+    "desc": "Massa artesanal recheada com calabresa moída temperada.",
+    "img": "https://www.seara.com.br/wp-content/uploads/2025/09/esfiha-aberta-de-calabresa-portal-minha-receita.webp"
+  },
+  {
+    "id": 102,
+    "title": "Esfiha de Palmito",
+    "category": "esfihas-salgadas",
+    "price": 5,
+    "badge": "R$ 5,00",
+    "desc": "Palmito macio com tempero especial da casa.",
+    "img": "https://i.pinimg.com/736x/1e/08/ba/1e08babc5f9601fa6731bbcc1d90dd8b.jpg"
+  },
+  {
+    "id": 103,
+    "title": "Esfiha Calabacon",
+    "category": "esfihas-salgadas",
+    "price": 5,
+    "badge": "MAIS PEDIDA",
+    "desc": "Combinação perfeita de calabresa com bacon crocante.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_GNUF8TtkaSVUxeMfK2dt2Lh8d4oPRG7xWL_5XQ0yCQ&s"
+  },
+  {
+    "id": 104,
+    "title": "Esfiha de Presunto",
+    "category": "esfihas-salgadas",
+    "price": 5,
+    "badge": "R$ 5,00",
+    "desc": "Presunto fatiado bem temperado.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR61H1u_XXRV-Mhsy97DI90IBwxiNEmfSjyE9hJvy0m9FE9k9BDMvrtxFrb&s=10"
+  },
+  {
+    "id": 105,
+    "title": "Esfiha de Queijo",
+    "category": "esfihas-salgadas",
+    "price": 5,
+    "badge": "R$ 5,00",
+    "desc": "Queijo muçarela derretido e suculento.",
+    "img": "https://imagem.band.com.br/12/f_355412.jpg"
+  },
+  {
+    "id": 106,
+    "title": "Esfiha de Frango",
+    "category": "esfihas-salgadas",
+    "price": 5,
+    "badge": "R$ 5,00",
+    "desc": "Frango desfiado temperado na medida.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIpSNsv4PAYHaFgQf4yPuLH_37H296semIGGcioAWyoHeQM14ubEKREmB-&s=10"
+  },
+  {
+    "id": 107,
+    "title": "Esfiha de Carne",
+    "category": "esfihas-salgadas",
+    "price": 5.5,
+    "badge": "ESPECIAL R$ 5,50",
+    "desc": "Carne temperada com especiarias e limão.",
+    "img": "https://i0.statig.com.br/bancodeimagens/57/6i/7q/576i7qbxxm8hfhfnzfba7jvpe.jpg"
+  },
+  {
+    "id": 108,
+    "title": "Esfiha Bacon com Milho",
+    "category": "esfihas-salgadas",
+    "price": 5,
+    "badge": "R$ 5,00",
+    "desc": "Bacon crocante combinado com milho selecionado.",
+    "img": "https://media.softsa.com.br/esfiha-show-cb/products/0773b2a7-b248-4fb7-8006-ab895696cb16.jpg"
+  },
+  {
+    "id": 109,
+    "title": "Esfiha Lombo com Catupiry",
+    "category": "esfihas-salgadas",
+    "price": 5,
+    "badge": "DELÍCIA",
+    "desc": "Lombo canadense suculento com requeijão cremoso.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKyi9vbq2rwR-PrCrUDhLQGU6p8eSg2ZIQSJTtteot6Pn65ixNE0I4t_w&s=10"
+  },
+  {
+    "id": 110,
+    "title": "Esfiha Marguerita",
+    "category": "esfihas-salgadas",
+    "price": 5,
+    "badge": "R$ 5,00",
+    "desc": "Muçarela, rodelas de tomate e manjericão fresco.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkX3arJ332jHOxuPw-9mIZxKlV13Pw24IAEYxuWw6eVCfO4t8aJJgFqUo&s=10"
+  },
+  {
+    "id": 111,
+    "title": "Esfiha Muçarela com Cheddar",
+    "category": "esfihas-salgadas",
+    "price": 5,
+    "badge": "R$ 5,00",
+    "desc": "Mistura cremosa de muçarela e cheddar de alta qualidade.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7aEn6iSwBIaNwPoDIWvdJNKPEpYzsXuFOgQQlUMjwbs7ib4bU-vW1mEU&s=10"
+  },
+  {
+    "id": 201,
+    "title": "Esfiha de Banana",
+    "category": "esfihas-doces",
+    "price": 5,
+    "badge": "DOCE R$ 5,00",
+    "desc": "Banana fatiada com canela e açúcar caramelizado.",
+    "img": "https://i.pinimg.com/564x/d4/ab/f0/d4abf0aa32490cadd9c47aabc82d0246.jpg"
+  },
+  {
+    "id": 202,
+    "title": "Esfiha Chocolate com Morango",
+    "category": "esfihas-doces",
+    "price": 5,
+    "badge": "TOP DOCE",
+    "desc": "Chocolate cremoso coberto com morangos frescos.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT95OYIcb2WzzDJRJjra3t6_IhzAQQ2rZX22XjrgHQdWYYaVpTZM3SqYtkF&s=10"
+  },
+  {
+    "id": 203,
+    "title": "Esfiha de Paçoquinha",
+    "category": "esfihas-doces",
+    "price": 5,
+    "badge": "DOCE R$ 5,00",
+    "desc": "Creme doce com pedaços crocantes de paçoca.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSThto6MDxz6x3ai3Hg22HnMWw5rHVGokEpPoYCx27yyUh4Zzt-N94d23Q&s=10"
+  },
+  {
+    "id": 204,
+    "title": "Esfiha de Prestígio",
+    "category": "esfihas-doces",
+    "price": 5,
+    "badge": "DOCE R$ 5,00",
+    "desc": "Chocolate com recheio cremoso de coco ralado.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDd4Wh0NCO8BW834vpxEA0P7OsnM1byQ_IAXK_mtMsDbLWW-NzPujq6ZLB&s=10"
+  },
+  {
+    "id": 205,
+    "title": "Esfiha Romeu e Julieta",
+    "category": "esfihas-doces",
+    "price": 5,
+    "badge": "DOCE R$ 5,00",
+    "desc": "Goiabada cremosa com queijo derretido.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6x7iGOB8W5wC_EHOv70MsZB45a2aLohZAI8o_Ci8Nn2I7vqvi1_u4s0Y&s=10"
+  },
+  {
+    "id": 206,
+    "title": "Esfiha Chocolate Branco",
+    "category": "esfihas-doces",
+    "price": 5,
+    "badge": "DOCE R$ 5,00",
+    "desc": "Delicioso chocolate branco nobre derretido.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0xYwBALataJ3boxueA51QgcO0J36V2U8ba2N-x-nnfsnNW8i4ueCDqrJF&s=10"
+  },
+  {
+    "id": 207,
+    "title": "Esfiha Doce de Leite",
+    "category": "esfihas-doces",
+    "price": 5,
+    "badge": "DOCE R$ 5,00",
+    "desc": "Doce de leite caseiro cremoso.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4FCRK7IzNOhCXCLYA1ll_jVgdwd9wAfhgvQ8JAq8nF0pQ3mTODwGtVJA&s=10"
+  },
+  {
+    "id": 208,
+    "title": "Esfiha Chocolate com M&M",
+    "category": "esfihas-doces",
+    "price": 5,
+    "badge": "NOVIDADE",
+    "desc": "Chocolate ao leite coberto com confetis coloridos.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKsKCjlKJjR-Log5u4KUxaeQ1vZJ7VCcXtoS0zlNLnVy2YK4UElWVXUoI&s=10"
+  },
+  {
+    "id": 1,
+    "title": "Calabresa Tradicional",
+    "category": "pizzas",
+    "price": 50,
+    "badge": "TRADICIONAL",
+    "desc": "Molho, muçarela e calabresa. Finalizada com orégano.",
+    "img": "/uploads/5381d63b-336d-42f9-939e-b1b6081b6ec6.jpg",
+    "sizes": {
+      "pequena": 41,
+      "media": 50,
+      "grande": 60,
+      "gg": 71
+    }
+  },
+  {
+    "id": 2,
+    "title": "Frango com Catupiry",
+    "category": "pizzas",
+    "price": 50,
+    "badge": "TRADICIONAL",
+    "desc": "Molho, Catupiry e frango. Finalizada com orégano.",
+    "img": "/uploads/e66d7c36-698a-446c-a49e-325a5703cd7e.jpg",
+    "sizes": {
+      "pequena": 41,
+      "media": 50,
+      "grande": 60,
+      "gg": 71
+    }
+  },
+  {
+    "id": 3,
+    "category": "pizzas",
+    "title": "Pizza À Moda do Chefe",
+    "price": 52,
+    "sizes": {
+      "pequena": 40,
+      "media": 52,
+      "grande": 62,
+      "gg": 72
+    },
+    "badge": "SUPREMA",
+    "desc": "Presunto, ovos, bacon, palmito, ervilha e muçarela.",
+    "img": "/uploads/3f8bbf84-020b-44b3-9e77-93bad20bf910.jpg"
+  },
+  {
+    "id": 601,
+    "title": "Portuguesa",
+    "category": "pizzas",
+    "price": 50,
+    "badge": "TRADICIONAL",
+    "desc": "Molho, muçarela, presunto, tomate, calabresa, milho, cebola, palmito, ovo, azeitona e pimentão.",
+    "img": "/uploads/3f8bbf84-020b-44b3-9e77-93bad20bf910.jpg",
+    "sizes": { "pequena": 41, "media": 50, "grande": 60, "gg": 71 }
+  },
+  {
+    "id": 602,
+    "title": "Frango, Catupiry, Alho e Cebola",
+    "category": "pizzas",
+    "price": 50,
+    "badge": "TRADICIONAL",
+    "desc": "Molho, muçarela, Catupiry, frango, alho e cebola.",
+    "img": "/uploads/2a4c4187-002a-456e-a7f3-535b43179dc8.jpg",
+    "sizes": { "pequena": 41, "media": 50, "grande": 60, "gg": 71 }
+  },
+  {
+    "id": 603,
+    "title": "Marguerita",
+    "category": "pizzas",
+    "price": 50,
+    "badge": "TRADICIONAL",
+    "desc": "Molho, muçarela, tomate e manjericão.",
+    "img": "/uploads/0910f714-7600-424c-8a7b-87c7062492f9.jpg",
+    "sizes": { "pequena": 41, "media": 50, "grande": 60, "gg": 71 }
+  },
+  {
+    "id": 604,
+    "title": "Palmito",
+    "category": "pizzas",
+    "price": 50,
+    "badge": "TRADICIONAL",
+    "desc": "Molho, muçarela e palmito.",
+    "img": "/uploads/02ebd08c-a037-4717-91f4-4d01ccab103e.jpg",
+    "sizes": { "pequena": 41, "media": 50, "grande": 60, "gg": 71 }
+  },
+  {
+    "id": 605,
+    "title": "Muçarela com Alho",
+    "category": "pizzas",
+    "price": 50,
+    "badge": "TRADICIONAL",
+    "desc": "Molho, muçarela e alho.",
+    "img": "/uploads/0ef0959f-167a-4af3-b76f-5c724b991330.jpg",
+    "sizes": { "pequena": 41, "media": 50, "grande": 60, "gg": 71 }
+  },
+  {
+    "id": 606,
+    "title": "Lombo Canadense",
+    "category": "pizzas",
+    "price": 50,
+    "badge": "TRADICIONAL",
+    "desc": "Molho, muçarela, lombo, cebola e Catupiry.",
+    "img": "/uploads/77a82d86-4c7f-4b2b-a8c0-73ea5c6e8df0.jpg",
+    "sizes": { "pequena": 41, "media": 50, "grande": 60, "gg": 71 }
+  },
+  {
+    "id": 607,
+    "title": "Mista",
+    "category": "pizzas",
+    "price": 50,
+    "badge": "TRADICIONAL",
+    "desc": "Molho, muçarela, presunto, tomate, calabresa, milho e cebola.",
+    "img": "/uploads/3f8bbf84-020b-44b3-9e77-93bad20bf910.jpg",
+    "sizes": { "pequena": 41, "media": 50, "grande": 60, "gg": 71 }
+  },
+  {
+    "id": 608,
+    "title": "Americana",
+    "category": "pizzas",
+    "price": 50,
+    "badge": "TRADICIONAL",
+    "desc": "Molho, muçarela, azeitona, ovo e bacon.",
+    "img": "/uploads/3f8bbf84-020b-44b3-9e77-93bad20bf910.jpg",
+    "sizes": { "pequena": 41, "media": 50, "grande": 60, "gg": 71 }
+  },
+  {
+    "id": 609,
+    "title": "Atum",
+    "category": "pizzas",
+    "price": 50,
+    "badge": "TRADICIONAL",
+    "desc": "Molho, muçarela, atum, alho, cebola, azeitona e Catupiry.",
+    "img": "/uploads/e83441e2-6daf-4bbb-8a1f-09cb6ec8ad79.jpg",
+    "sizes": { "pequena": 41, "media": 50, "grande": 60, "gg": 71 }
+  },
+  {
+    "id": 610,
+    "title": "Presunto",
+    "category": "pizzas",
+    "price": 50,
+    "badge": "TRADICIONAL",
+    "desc": "Molho, muçarela e presunto.",
+    "img": "/uploads/77a82d86-4c7f-4b2b-a8c0-73ea5c6e8df0.jpg",
+    "sizes": { "pequena": 41, "media": 50, "grande": 60, "gg": 71 }
+  },
+  {
+    "id": 611,
+    "title": "4 Queijos",
+    "category": "pizzas",
+    "price": 50,
+    "badge": "TRADICIONAL",
+    "desc": "Molho, muçarela, Catupiry, provolone e parmesão.",
+    "img": "/uploads/0ef0959f-167a-4af3-b76f-5c724b991330.jpg",
+    "sizes": { "pequena": 41, "media": 50, "grande": 60, "gg": 71 }
+  },
+  {
+    "id": 612,
+    "title": "5 Queijos",
+    "category": "pizzas",
+    "price": 50,
+    "badge": "TRADICIONAL",
+    "desc": "Molho, muçarela, Catupiry, provolone, parmesão e cheddar.",
+    "img": "/uploads/0ef0959f-167a-4af3-b76f-5c724b991330.jpg",
+    "sizes": { "pequena": 41, "media": 50, "grande": 60, "gg": 71 }
+  },
+  {
+    "id": 613,
+    "title": "Moda da Casa",
+    "category": "pizzas",
+    "price": 50,
+    "badge": "TRADICIONAL",
+    "desc": "Molho, muçarela, provolone, presunto, palmito, alho, cebola e Catupiry.",
+    "img": "/uploads/3f8bbf84-020b-44b3-9e77-93bad20bf910.jpg",
+    "sizes": { "pequena": 41, "media": 50, "grande": 60, "gg": 71 }
+  },
+  {
+    "id": 614,
+    "title": "Frango Premium",
+    "category": "pizzas",
+    "price": 58,
+    "badge": "PREMIUM",
+    "desc": "Molho sacalli, frango triturado, Catupiry Original, alho frito, cebola palha defumada e azeitona.",
+    "img": "/uploads/2a4c4187-002a-456e-a7f3-535b43179dc8.jpg",
+    "sizes": { "pequena": 51, "media": 58, "grande": 69, "gg": 78 }
+  },
+  {
+    "id": 615,
+    "title": "Moda da Casa Premium",
+    "category": "pizzas",
+    "price": 58,
+    "badge": "PREMIUM",
+    "desc": "Molho sacalli, muçarela, presunto, tomate, calabresa, milho, cebola, palha defumada, alho frito e bacon.",
+    "img": "/uploads/3f8bbf84-020b-44b3-9e77-93bad20bf910.jpg",
+    "sizes": { "pequena": 51, "media": 58, "grande": 69, "gg": 78 }
+  },
+  {
+    "id": 616,
+    "title": "Lombo Canadense Premium",
+    "category": "pizzas",
+    "price": 58,
+    "badge": "PREMIUM",
+    "desc": "Molho sacalli, muçarela, lombo canadense, cebola palha defumada, alho frito e Catupiry Original.",
+    "img": "/uploads/77a82d86-4c7f-4b2b-a8c0-73ea5c6e8df0.jpg",
+    "sizes": { "pequena": 51, "media": 58, "grande": 69, "gg": 78 }
+  },
+  {
+    "id": 617,
+    "title": "Havaiana",
+    "category": "pizzas",
+    "price": 58,
+    "badge": "PREMIUM",
+    "desc": "Molho sacalli, muçarela, lombo, bacon, maracujá e abacaxi.",
+    "img": "/uploads/2f5af90f-0494-4f69-89c8-03d50cd4259c.jpg",
+    "sizes": { "pequena": 51, "media": 58, "grande": 69, "gg": 78 }
+  },
+  {
+    "id": 618,
+    "title": "Caipira",
+    "category": "pizzas",
+    "price": 58,
+    "badge": "PREMIUM",
+    "desc": "Molho sacalli, muçarela, frango, milho, bacon, tomate, pimentão e muçarela gratinada.",
+    "img": "/uploads/2a4c4187-002a-456e-a7f3-535b43179dc8.jpg",
+    "sizes": { "pequena": 51, "media": 58, "grande": 69, "gg": 78 }
+  },
+  {
+    "id": 619,
+    "title": "Champignon Premium",
+    "category": "pizzas",
+    "price": 58,
+    "badge": "PREMIUM",
+    "desc": "Molho sacalli, muçarela, Catupiry Original, bacon e champignon.",
+    "img": "/uploads/02ebd08c-a037-4717-91f4-4d01ccab103e.jpg",
+    "sizes": { "pequena": 51, "media": 58, "grande": 69, "gg": 78 }
+  },
+  {
+    "id": 620,
+    "title": "Milho Premium",
+    "category": "pizzas",
+    "price": 58,
+    "badge": "PREMIUM",
+    "desc": "Molho, muçarela, milho, Catupiry Original e bacon.",
+    "img": "/uploads/3f8bbf84-020b-44b3-9e77-93bad20bf910.jpg",
+    "sizes": { "pequena": 51, "media": 58, "grande": 69, "gg": 78 }
+  },
+  {
+    "id": 621,
+    "title": "Banana com Canela",
+    "category": "pizzas",
+    "price": 51,
+    "badge": "PIZZA DOCE",
+    "desc": "Muçarela, banana, canela e leite condensado.",
+    "img": "/uploads/763369d6-b6db-4710-a441-2b34528cdcf7.jpg",
+    "sizes": { "pequena": 42, "media": 51, "grande": 60, "gg": 69 }
+  },
+  {
+    "id": 622,
+    "title": "Banana com Canela e Chocolate",
+    "category": "pizzas",
+    "price": 51,
+    "badge": "PIZZA DOCE",
+    "desc": "Muçarela, banana, canela e chocolate.",
+    "img": "/uploads/763369d6-b6db-4710-a441-2b34528cdcf7.jpg",
+    "sizes": { "pequena": 42, "media": 51, "grande": 60, "gg": 69 }
+  },
+  {
+    "id": 623,
+    "title": "Chocolate com Morango",
+    "category": "pizzas",
+    "price": 51,
+    "badge": "PIZZA DOCE",
+    "desc": "Chocolate, morango e confeitos.",
+    "img": "/uploads/d3ab8442-0802-4237-9c70-23421c50d009.jpg",
+    "sizes": { "pequena": 42, "media": 51, "grande": 60, "gg": 69 }
+  },
+  {
+    "id": 624,
+    "title": "Romeu e Julieta",
+    "category": "pizzas",
+    "price": 51,
+    "badge": "PIZZA DOCE",
+    "desc": "Muçarela, cream cheese e goiabada.",
+    "img": "/uploads/d3ab8442-0802-4237-9c70-23421c50d009.jpg",
+    "sizes": { "pequena": 42, "media": 51, "grande": 60, "gg": 69 }
+  },
+  {
+    "id": 625,
+    "title": "Paçoquinha",
+    "category": "pizzas",
+    "price": 51,
+    "badge": "PIZZA DOCE",
+    "desc": "Muçarela, cream cheese, doce de leite, paçoquinha e amendoim.",
+    "img": "/uploads/5332c3bd-6ff3-4d46-b542-4b7f4e3b58a2.jpg",
+    "sizes": { "pequena": 42, "media": 51, "grande": 60, "gg": 69 }
+  },
+  {
+    "id": 626,
+    "title": "Prestígio",
+    "category": "pizzas",
+    "price": 51,
+    "badge": "PIZZA DOCE",
+    "desc": "Chocolate, coco ralado e creme de leite.",
+    "img": "/uploads/d3ab8442-0802-4237-9c70-23421c50d009.jpg",
+    "sizes": { "pequena": 42, "media": 51, "grande": 60, "gg": 69 }
+  },
+  {
+    "id": 301,
+    "title": "Coca-Cola 1L",
+    "category": "bebidas",
+    "price": 10,
+    "badge": "BEBIDA",
+    "desc": "Refrigerante Coca-Cola garrafa de 1 litro.",
+    "img": "https://mercantilatacado.vtexassets.com/arquivos/ids/168673-800-auto?v=638342826763630000&width=800&height=auto&aspect=true"
+  },
+  {
+    "id": 302,
+    "title": "Guaraná Antarctica 1,5L",
+    "category": "bebidas",
+    "price": 12,
+    "badge": "BEBIDA",
+    "desc": "Refrigerante Guaraná Antarctica garrafa de 1,5 litro.",
+    "img": "https://http2.mlstatic.com/D_NQ_NP_736985-MLB93905102913_102025-O-refrigerante-guarana-antarctica-15l--pack-com-6-unidades.webp"
+  },
+  {
+    "id": 303,
+    "title": "Coca-Cola 2L",
+    "category": "bebidas",
+    "price": 16,
+    "badge": "BEBIDA",
+    "desc": "Refrigerante Coca-Cola garrafa de 2 litros.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBpwbQrrlaJVMr1jd7gLoYHvxu9iXZRexqIsfcvYxOx3Dmgq3jzvcnrQ4&s=10"
+  },
+  {
+    "id": 304,
+    "title": "Coca-Cola 600ml",
+    "category": "bebidas",
+    "price": 8,
+    "badge": "BEBIDA",
+    "desc": "Refrigerante Coca-Cola garrafa de 600 ml.",
+    "img": "https://farmaciaindiana.vtexassets.com/arquivos/ids/371946/refrigerante-coca-cola-600ml-3.jpg?v=638896519284200000"
+  },
+  {
+    "id": 305,
+    "title": "Coca-Cola Lata",
+    "category": "bebidas",
+    "price": 8,
+    "badge": "BEBIDA",
+    "desc": "Refrigerante Coca-Cola em lata.",
+    "img": "https://mercantilnovaera.vtexassets.com/arquivos/ids/206262/Refrigerante-COCA-COLA-Lata-350ml.jpg?v=638174264397000000"
+  },
+  {
+    "id": 306,
+    "title": "Coca-Cola Zero Lata",
+    "category": "bebidas",
+    "price": 7,
+    "badge": "BEBIDA",
+    "desc": "Refrigerante Coca-Cola Zero em lata.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFvYm92jCyoJHD3eBPgbbv35LpbAO40Gp5dbirY3DtzDWyefaj5dDX4pIC&s=10"
+  },
+  {
+    "id": 307,
+    "title": "Guaraviton",
+    "category": "bebidas",
+    "price": 6,
+    "badge": "BEBIDA",
+    "desc": "Bebida Guaravita.",
+    "img": "https://http2.mlstatic.com/D_NQ_NP_995549-MLA99862553491_112025-O.webp"
+  },
+  {
+    "id": 308,
+    "title": "Fanta Laranja 2L",
+    "category": "bebidas",
+    "price": 14,
+    "badge": "BEBIDA",
+    "desc": "Refrigerante Fanta Laranja garrafa de 2 litros.",
+    "img": "https://www.drinkbartenders.com.br/wp-content/uploads/2025/11/fanta-laranja-pet-2-litros-refrescancia-citrica.webp"
+  },
+  {
+    "id": 309,
+    "title": "Ativ Plus",
+    "category": "bebidas",
+    "price": 3,
+    "badge": "BEBIDA",
+    "desc": "Bebida Ativ Plus.",
+    "img": "https://down-br.img.susercontent.com/file/br-11134207-7r98o-mbyatg1hohpj94"
+  },
+  {
+    "id": 310,
+    "title": "Água com Gás",
+    "category": "bebidas",
+    "price": 4,
+    "badge": "BEBIDA",
+    "desc": "Água mineral com gás.",
+    "img": "https://produto-assets-vipcommerce-com-br.br-se1.magaluobjects.com/ddefb978-3136-4251-9c50-870162eb05eb.jpg"
+  },
+  {
+    "id": 311,
+    "title": "Cerveja Heineken latão",
+    "category": "bebidas",
+    "price": 9,
+    "available": true,
+    "badge": "BEBIDA",
+    "desc": "Cerveja Heineken.",
+    "img": "https://http2.mlstatic.com/D_NQ_NP_620961-MLA99833084835_112025-O-pack-cerveja-heineken-premium-latao-12-unidades-473ml-cada.webp"
+  },
+  {
+    "id": 312,
+    "title": "Água sem Gás",
+    "category": "bebidas",
+    "price": 3,
+    "badge": "BEBIDA",
+    "desc": "Água mineral sem gás.",
+    "img": "https://distribuidoraourofino.com.br/wp-content/uploads/2022/09/agua_mineral_passa_quatro_510ml.jpg"
+  },
+  {
+    "id": 313,
+    "title": "Cerveja Antarctica  latão",
+    "category": "bebidas",
+    "price": 8,
+    "badge": "BEBIDA",
+    "desc": "Cerveja Antarctica.",
+    "img": "https://assets.ibecom.com.br/ib.item.image.large/l-0426bf41bfe249558e9473bde17b2259.jpeg"
+  },
+  {
+    "id": 314,
+    "title": "Vinho (Taça)",
+    "category": "bebidas",
+    "price": 10,
+    "badge": "BEBIDA",
+    "desc": "Taça de vinho.",
+    "img": "https://cdn.awsli.com.br/800x800/469/469651/produto/17990253/d04ad47cc7.jpg"
+  },
+  {
+    "id": 315,
+    "title": "Mantiqueira 2L",
+    "category": "bebidas",
+    "price": 10,
+    "badge": "BEBIDA",
+    "desc": "Refrigerante Mantiqueira garrafa de 2 litros.",
+    "img": "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/itens/17460748726812fcf849a01_75_75.jpeg"
+  },
+  {
+    "id": 316,
+    "title": "H2O",
+    "category": "bebidas",
+    "price": 7,
+    "badge": "BEBIDA",
+    "desc": "Bebida H2O.",
+    "img": "https://anossadrogaria.vtexassets.com/arquivos/ids/4021430/968921_01.webp?v=638890699127100000"
+  },
+  {
+    "id": 401,
+    "title": "Pizza Brotinho",
+    "category": "calzones",
+    "price": 30,
+    "badge": "R$ 30,00",
+    "desc": "Todos os sabores de pizza do cardápio.",
+    "img": "https://dcdn-us.mitiendanube.com/stores/001/282/481/products/pizza_calabresa1-487998b5378cf1ca2d16033003217089-640-0.webp"
+  },
+  {
+    "id": 402,
+    "title": "Calzone de Frango",
+    "category": "calzones",
+    "price": 30,
+    "badge": "R$ 30,00",
+    "desc": "Muçarela, catupiry, frango e orégano.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtxarePAx_gcdqqlGd7gDjVWQ4FamusNuAh3gzQa7rGnyTpqt6cDgMO0I&s=10"
+  },
+  {
+    "id": 403,
+    "title": "Calzone Misto",
+    "category": "calzones",
+    "price": 30,
+    "badge": "R$ 30,00",
+    "desc": "Molho, muçarela, presunto, calabresa, milho e orégano.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9jEbCZHuo67XO0Dwicr2RltRUBBKYiXSyKCOyzPNENLXuyasBBLFa17sW&s=10"
+  },
+  {
+    "id": 404,
+    "title": "Calzone Lombo",
+    "category": "calzones",
+    "price": 30,
+    "badge": "R$ 30,00",
+    "desc": "Molho, muçarela, catupiry, lombo canadense e orégano.",
+    "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkygT6fJPP0OON4qkTP-nqWnjDJ9qC3c8K0BjkZd_xSUS4qcRYNvCx3JyQ&s=10"
+  },
+  {
+    "id": 501,
+    "category": "adicionais",
+    "title": "Borda de Catupiry",
+    "price": 7,
+    "badge": "ADICIONAL",
+    "desc": "Adicional de borda de Catupiry.",
+    "img": "https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "id": 502,
+    "category": "adicionais",
+    "title": "Borda de Catupiry Original",
+    "price": 12,
+    "badge": "ADICIONAL",
+    "desc": "Adicional de borda de Catupiry Original.",
+    "img": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "id": 503,
+    "category": "adicionais",
+    "title": "Borda de Cheddar",
+    "price": 12,
+    "badge": "ADICIONAL",
+    "desc": "Adicional de borda de cheddar.",
+    "img": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "id": 504,
+    "category": "adicionais",
+    "title": "Borda de Cream Cheese",
+    "price": 12,
+    "badge": "ADICIONAL",
+    "desc": "Adicional de borda de cream cheese.",
+    "img": "https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "id": 505,
+    "category": "adicionais",
+    "title": "Bacon",
+    "price": 7,
+    "badge": "ADICIONAL",
+    "desc": "Adicional de bacon.",
+    "img": "https://images.unsplash.com/photo-1528607929212-2636ec44253e?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "id": 506,
+    "category": "adicionais",
+    "title": "Cheddar",
+    "price": 11,
+    "badge": "ADICIONAL",
+    "desc": "Adicional de cheddar.",
+    "img": "https://images.unsplash.com/photo-1618040996337-56904b7850b9?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "id": 507,
+    "category": "adicionais",
+    "title": "Cream Cheese",
+    "price": 11,
+    "badge": "ADICIONAL",
+    "desc": "Adicional de cream cheese.",
+    "img": "https://images.unsplash.com/photo-1559561853-08451507cbe7?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "id": 508,
+    "category": "adicionais",
+    "title": "Alho Frito",
+    "price": 4,
+    "badge": "ADICIONAL",
+    "desc": "Adicional de alho frito.",
+    "img": "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "id": 509,
+    "category": "adicionais",
+    "title": "Cebola Palha Defumada",
+    "price": 4,
+    "badge": "ADICIONAL",
+    "desc": "Adicional de cebola palha defumada.",
+    "img": "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "id": 510,
+    "category": "adicionais",
+    "title": "Muçarela",
+    "price": 11,
+    "badge": "ADICIONAL",
+    "desc": "Adicional de muçarela.",
+    "img": "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=600&q=80"
+  }
+]

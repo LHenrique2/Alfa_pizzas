@@ -1,0 +1,35 @@
+{
+  "id": "./",
+  "name": "Alpha Pizzas",
+  "short_name": "Alpha Pizzas",
+  "description": "Cardapio e pedidos da Alpha Pizzas em Rio Claro, RJ.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#08090c",
+  "theme_color": "#08090c",
+  "categories": ["food", "shopping"],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Abrir cardapio",
+      "short_name": "Cardapio",
+      "url": "./alpha_pizzas_site.html#cardapio",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}
