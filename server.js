@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const http = require('node:http');
 const { promisify } = require('node:util');
+const { GitHubSync } = require('./github-sync');
 
 const scrypt = promisify(crypto.scrypt);
 const ROOT = __dirname;
@@ -33,6 +34,20 @@ const SESSION_TTL_MS = 12 * 60 * 60 * 1000;
 const MINIMUM_ESFIHAS_FOR_DELIVERY = 5;
 const sessions = new Map();
 const loginAttempts = new Map();
+
+// Persistencia via GitHub: em hospedagem com disco efemero (Render free) os
+// pedidos, o cardapio editado, os bairros e as fotos enviadas pelo painel
+// seriao apagados a cada novo deploy. Aqui eles sao espelhados em uma branch
+// de dados e restaurados no boot. Sem GITHUB_TOKEN/GITHUB_REPO fica desligado.
+const dataSync = new GitHubSync({
+    token: process.env.GITHUB_TOKEN,
+    repo: process.env.GITHUB_REPO,
+    branch: process.env.GITHUB_DATA_BRANCH || 'alpha-data',
+    deployBranch: process.env.GITHUB_DEPLOY_BRANCH || 'main',
+    root: ROOT,
+    dataDir: DATA_DIR,
+    uploadDir: UPLOAD_DIR
+});
 const categories = new Set(['esfihas-salgadas', 'esfihas-doces', 'pizzas', 'calzones', 'adicionais', 'bebidas']);
 const SIZE_LABELS = { pequena: 'Pequena', media: 'Média', grande: 'Grande', gg: 'Gigante' };
 const mimeTypes = {
@@ -339,7 +354,7 @@ function setSecurityHeaders(response) {
 async function handleApi(request, response, url) {
     const route = `${request.method} ${url.pathname}`;
 
-    if (route === 'GET /api/health') return sendJson(response, 200, { status: 'ok' });
+    if (route === 'GET /api/health') return sendJson(response, 200, { status: 'ok', dataSync: dataSync.status() });
     if (route === 'GET /api/menu') {
         return sendJson(response, 200, { items: await readMenu(), initialized: fs.existsSync(MENU_FILE) });
     }
@@ -440,6 +455,9 @@ async function handleApi(request, response, url) {
             if (orders.length > 500) orders.length = 500;
         });
 
+        // Pedido novo: espelha no GitHub para nao perder em um novo deploy.
+        dataSync.schedule('novo pedido');
+
         return sendJson(response, 201, { success: true, order: newOrder });
     }
 
@@ -493,6 +511,7 @@ async function handleApi(request, response, url) {
         }
         const settings = { pixKey: body.pixKey.trim() };
         await writeStoreSettings(settings);
+        dataSync.schedule('chave pix atualizada');
         return sendJson(response, 200, settings);
     }
 
@@ -502,6 +521,7 @@ async function handleApi(request, response, url) {
             return sendJson(response, 400, { error: 'Confira os bairros, valores e nomes duplicados.' });
         }
         await writeDeliveryAreas(body.areas);
+        dataSync.schedule('bairros atualizados');
         return sendJson(response, 200, { areas: await readDeliveryAreas() });
     }
 
@@ -532,6 +552,7 @@ async function handleApi(request, response, url) {
             return { target, statusChanged };
         });
         if (!updated) return sendJson(response, 404, { error: 'Pedido não encontrado.' });
+        dataSync.schedule('status de pedido atualizado');
         return sendJson(response, 200, { success: true, order: updated.target, statusChanged: updated.statusChanged });
     }
 
@@ -552,6 +573,7 @@ async function handleApi(request, response, url) {
             return { removed: true };
         });
         if (removed.error) return sendJson(response, removed.error.status, { error: removed.error.message });
+        dataSync.schedule('pedido excluido');
         return sendJson(response, 200, { success: true });
     }
 
@@ -559,6 +581,7 @@ async function handleApi(request, response, url) {
         const body = await readJson(request);
         if (!validateMenu(body.items)) return sendJson(response, 400, { error: 'O cardápio contém dados inválidos.' });
         await writeMenu(body.items);
+        dataSync.schedule('cardapio atualizado');
         return sendJson(response, 200, { items: body.items });
     }
 
@@ -575,6 +598,8 @@ async function handleApi(request, response, url) {
         const extension = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/webp': 'webp' }[mime];
         const filename = `${crypto.randomUUID()}.${extension}`;
         await fs.promises.writeFile(path.join(UPLOAD_DIR, filename), content, { flag: 'wx', mode: 0o644 });
+        // Foto nova: espelha no GitHub para nao sumir no proximo deploy.
+        dataSync.schedule('nova foto enviada');
         return sendJson(response, 201, { url: `/uploads/${filename}` });
     }
 
@@ -714,6 +739,16 @@ async function main() {
 
     if (!fs.existsSync(ORDERS_FILE)) {
         await fs.promises.writeFile(ORDERS_FILE, JSON.stringify([], null, 2), { mode: 0o600 });
+    }
+
+    // Restaura pedidos, cardapio, bairros e fotos salvos no GitHub.
+    // Sem isso, em hospedagem com disco efemero tudo se perde no proximo deploy.
+    await dataSync.restore();
+
+    for (const signal of ['SIGINT', 'SIGTERM']) {
+        process.on(signal, () => {
+            void dataSync.flush('encerramento do servidor').finally(() => process.exit(0));
+        });
     }
 
     const server = http.createServer(async (request, response) => {
