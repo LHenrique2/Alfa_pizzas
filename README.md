@@ -46,6 +46,14 @@ GITHUB_DEPLOY_BRANCH = main          # opcional: detectado automaticamente
 
 Sem `GITHUB_TOKEN` e `GITHUB_REPO` o recurso fica desligado e nada muda. O hash da senha (`data/admin-password.json`) nunca e versionado; em hospedagem, defina `ADMIN_PASSWORD` no ambiente para a senha do painel ser sempre a mesma.
 
+`data/orders.json` tambem nao e versionado: e dado de execucao (pedidos recebidos), nao configuracao. Se ele estivesse no repositorio, cada push dele "envelheceria" o backup e os pedidos seriam sobrescritos no deploy seguinte.
+
+Quem decide a versao que vale e a data da ultima alteracao:
+
+- alteracao feita no painel (admin) -> espelhada na branch de dados (mais nova);
+- alteracao feita direto no repositorio e enviada -> mantida e propagada para a branch de dados;
+- arquivo que nao existe no repositorio (como `data/orders.json`) -> a versao da branch de dados sempre vence, entao nenhum pedido se perde em um deploy.
+
 O estado do espelhamento aparece em `GET /api/health` no campo `dataSync`.
 
 ## Paginas

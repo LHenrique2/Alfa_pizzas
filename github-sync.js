@@ -138,10 +138,16 @@ class GitHubSync {
 
     async getCommit(sha) {
         const payload = await this.api(this.repoPath(`/git/commits/${sha}`));
+        // A Git Data API devolve author/committer no topo do objeto.
+        // A REST API devolve dentro de `commit`. Aceitamos os dois formatos.
+        const date = (payload.committer && payload.committer.date) ||
+            (payload.author && payload.author.date) ||
+            (payload.commit && payload.commit.committer && payload.commit.committer.date) ||
+            null;
         return {
             sha: payload.sha,
             treeSha: payload.tree ? payload.tree.sha : null,
-            date: payload.commit && payload.commit.committer ? payload.commit.committer.date : null
+            date
         };
     }
 
@@ -319,12 +325,15 @@ class GitHubSync {
                 const remoteBuffer = await this.getBlob(remoteSha);
                 if (remoteBuffer.equals(buffer)) continue;
 
-                const remoteDate = head.date ? new Date(head.date).getTime() : 0;
+                const remoteTime = head.date ? new Date(head.date).getTime() : 0;
                 const mainDate = await this.lastChangeDate(relative);
                 const mainTime = mainDate ? new Date(mainDate).getTime() : 0;
 
-                if (mainTime > remoteDate) {
-                    // O repositorio foi alterado depois do ultimo sync: vale a versao do repo.
+                // O repositorio so vence se tiver uma alteracao MAIS NOVA que o
+                // ultimo espelhamento. Arquivo que nao existe no repositorio
+                // (ex.: data/orders.json, que e dado de execucao) sempre fica
+                // com a versao da branch de dados.
+                if (mainDate && mainTime > remoteTime) {
                     keptLocal += 1;
                     continue;
                 }

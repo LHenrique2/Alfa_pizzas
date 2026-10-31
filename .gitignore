@@ -1,4 +1,5 @@
 .env
 data/admin-password.json
+data/orders.json
 data/*.tmp
 node_modules/
