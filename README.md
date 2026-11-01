@@ -62,6 +62,19 @@ O estado do espelhamento aparece em `GET /api/health` no campo `dataSync`.
 - `admin.html` e o painel administrativo.
 - `alpha_pizzas_site.html` e apenas um redirect legado para `index.html` (o servidor responde 301). Nao edite o cardapio nem o checkout em dois lugares: o arquivo antigo quebrou o checkout uma vez e o problema so apareceu em producao.
 
+## Busca de produtos no cardapio 3D
+
+A roleta tem uma caixa de busca (`#menuSearch`) que filtra os itens por nome, descricao e badge, junto com o filtro de categoria. Detalhes:
+
+- ignora acentos e maiusculas: "mucarela" acha "Mucarela", "guarana" acha "Guaraná";
+- varias palavras: primeiro exige todas ("calabresa tradicional"); se ninguem tem todas, mostra quem tem pelo menos uma;
+- "adicionais" (bordas e extras) nao entram na roleta, como antes;
+- o contador mostra quantos produtos foram encontrados e o botao ✕ limpa o campo;
+- sem resultado, aparece um aviso no lugar da roleta;
+- digitar na busca para o giro automatico.
+
+O cache do service worker foi para `alpha-pizzas-v22` por causa dessa mudanca.
+
 ## Precos e segurança dos pedidos
 
 O navegador manda apenas o `id` do produto, a quantidade e o tamanho da pizza. O servidor recalcula o preco e o titulo a partir de `data/menu.json`, aplica a taxa do bairro e rejeita produtos que nao existem mais ou que estao esgotados. Nao confie em preco enviado pelo cliente.
@@ -70,4 +83,4 @@ A senha do painel nunca tem valor padrao: se `ADMIN_PASSWORD` nao existir, o ser
 
 ## Mudancas no service worker
 
-Ao alterar `index.html`, `logo.png`, `hero-bg.jpg` ou os icones, aumente `CACHE_NAME` em `service-worker.js` (por exemplo `alpha-pizzas-v21` para `v22`). Sem isso, usuarios com o app instalado continuam vendo a versao antiga do cache.
+Ao alterar `index.html`, `logo.png`, `hero-bg.jpg` ou os icones, aumente `CACHE_NAME` em `service-worker.js` (por exemplo `alpha-pizzas-v22` para `v23`). Sem isso, usuarios com o app instalado continuam vendo a versao antiga do cache.
