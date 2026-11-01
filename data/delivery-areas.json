@@ -1,14 +1,14 @@
 [
   {
-    "name": "Centro",
+    "name": "Dentro da Cidade",
     "fee": 4
   },
   {
-    "name": "Alambari",
+    "name": "Retirada",
     "fee": 4
   },
   {
-    "name": "Morro do Estado",
-    "fee": 4
+    "name": "Itambe",
+    "fee": 12
   }
 ]
