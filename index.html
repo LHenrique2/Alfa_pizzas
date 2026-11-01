@@ -342,8 +342,23 @@
                     <p class="text-xs sm:text-sm text-gray-400 mt-2 max-w-lg mx-auto">Gire a roleta de sabores, filtre
                         por categoria e escolha sua próxima combinação perfeita.</p>
 
+                    <!-- BUSCA DE PRODUTOS -->
+                    <div class="mt-6 flex justify-center px-2">
+                        <div class="relative w-full max-w-md">
+                            <span
+                                class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-sm">🔍</span>
+                            <input id="menuSearch" type="text" inputmode="search" autocomplete="off"
+                                placeholder="Buscar pizza, esfiha, borda..."
+                                aria-label="Buscar produtos no cardápio"
+                                class="w-full bg-brand-card/90 border border-brand-cardBorder focus:border-brand-gold rounded-full pl-11 pr-11 py-3 text-sm text-white placeholder-gray-500 outline-none transition-all focus:shadow-lg focus:shadow-brand-gold/10">
+                            <button id="menuSearchClear" type="button" aria-label="Limpar busca"
+                                class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-gray-700 hover:bg-brand-red text-white text-xs font-bold place-items-center transition-colors">✕</button>
+                        </div>
+                    </div>
+                    <p id="searchResultCount" aria-live="polite" class="mt-3 text-xs text-gray-400 min-h-[1rem]"></p>
+
                     <!-- Category Filter Pills -->
-                    <div class="roulette-filters mt-8" id="categoryFilters">
+                    <div class="roulette-filters mt-6" id="categoryFilters">
                         <button data-cat="todos"
                             class="cat-btn active bg-brand-red text-white px-5 py-2.5 rounded-full text-xs font-bold shadow-lg shadow-brand-red/30 transition-all whitespace-nowrap">Todos
                             os Itens</button>
@@ -375,6 +390,13 @@
                     id="rouletteViewport">
                     <div id="rouletteContainer" class="roulette-container">
                         <!-- Cards will be dynamically injected here -->
+                    </div>
+                    <!-- AVISO DE BUSCA SEM RESULTADO -->
+                    <div id="rouletteEmpty"
+                        class="hidden absolute inset-0 z-10 flex-col items-center justify-center text-center px-6 pointer-events-none">
+                        <span class="text-4xl" aria-hidden="true">🔍</span>
+                        <p class="text-white font-bold mt-3">Nenhum produto encontrado</p>
+                        <p class="text-gray-400 text-sm mt-1">Tente outro termo, troque a categoria ou limpe a busca.</p>
                     </div>
                 </div>
 
@@ -1248,6 +1270,7 @@
             let menuItems = loadMenuItems();
             let currentCategory = 'todos';
             let activeItems = [...menuItems];
+            let searchTerm = '';
             let currentIndex = 0;
             let isSpinning = true;
             let cylinderAnimationFrame = null;
@@ -1330,8 +1353,63 @@
             };
 
             function getRouletteItems(category = currentCategory, items = menuItems) {
-                return items.filter(item => item.category !== 'adicionais' &&
+                const base = items.filter(item => item.category !== 'adicionais' &&
                     (category === 'todos' || item.category === category));
+                const term = normalizeSearch(searchTerm);
+                if (!term) return base;
+
+                // Primeiro tenta o termo exato: todas as palavras precisam bater.
+                const strict = base.filter(item => matchesSearch(item, term));
+                if (strict.length > 0) return strict;
+
+                // Nada combinou com todas as palavras (ex.: "pizza calabresa"):
+                // mostra quem tem pelo menos uma delas, em vez de lista vazia.
+                const words = term.split(/\s+/).filter(Boolean);
+                return base.filter(item => words.some(word => matchesSearch(item, word)));
+            }
+
+            // Normaliza o texto da busca: minusculas e sem acento, para que
+            // "acai" encontre "Acai" e "cafe" encontre "Café".
+            function normalizeSearch(text) {
+                return String(text || '')
+                    .toLowerCase()
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')
+                    .trim();
+            }
+
+            function matchesSearch(item, term) {
+                if (!term) return true;
+                const haystack = normalizeSearch(`${item.title || ''} ${item.desc || ''} ${item.badge || ''}`);
+                return term.split(/\s+/).every(word => haystack.includes(word));
+            }
+
+            // Atualiza contador de resultados, botao de limpar e aviso de busca vazia.
+            function updateSearchFeedback() {
+                const count = activeItems.length;
+                const counter = document.getElementById('searchResultCount');
+                if (counter) {
+                    counter.textContent = searchTerm
+                        ? `${count} ${count === 1 ? 'produto encontrado' : 'produtos encontrados'}`
+                        : '';
+                }
+                const empty = document.getElementById('rouletteEmpty');
+                if (empty) {
+                    empty.classList.toggle('hidden', count > 0);
+                    empty.classList.toggle('flex', count === 0);
+                }
+                const clearButton = document.getElementById('menuSearchClear');
+                if (clearButton) clearButton.classList.toggle('hidden', !searchTerm);
+            }
+
+            // Aplica categoria + busca de uma vez so.
+            function applyRouletteFilters() {
+                activeItems = getRouletteItems();
+                currentIndex = 0;
+                currentCylinderAngle = 0;
+                manualRotationRemaining = 0;
+                isCylinderTurning = false;
+                renderRoulette();
             }
 
             function getPizzaSizes(item) {
@@ -1407,6 +1485,8 @@
             function renderRoulette() {
                 const container = document.getElementById('rouletteContainer');
                 if (!container) return;
+
+                updateSearchFeedback();
 
                 container.innerHTML = '';
                 const total = activeItems.length;
@@ -2314,13 +2394,40 @@
                         e.target.classList.remove('bg-brand-card', 'text-gray-300');
 
                         currentCategory = e.target.getAttribute('data-cat') || 'todos';
-                        activeItems = getRouletteItems();
-                        currentIndex = 0;
-                        currentCylinderAngle = 0;
-                        manualRotationRemaining = 0;
-                        isCylinderTurning = false;
-                        renderRoulette();
+                        applyRouletteFilters();
                     });
+                });
+
+                // Busca de produtos no cardapio 3D
+                const searchInput = document.getElementById('menuSearch');
+                searchInput?.addEventListener('input', (e) => {
+                    stopAutoSpin();
+                    searchTerm = e.target.value;
+                    applyRouletteFilters();
+                });
+                searchInput?.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        e.preventDefault();
+                        e.target.value = '';
+                        searchTerm = '';
+                        applyRouletteFilters();
+                    }
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        if (activeItems.length > 0) {
+                            currentIndex = 0;
+                            currentCylinderAngle = 0;
+                            renderRoulette();
+                        }
+                    }
+                });
+                document.getElementById('menuSearchClear')?.addEventListener('click', () => {
+                    if (searchInput) {
+                        searchInput.value = '';
+                        searchInput.focus();
+                    }
+                    searchTerm = '';
+                    applyRouletteFilters();
                 });
 
                 // Cart Modal listeners
